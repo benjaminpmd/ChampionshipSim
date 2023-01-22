@@ -7,7 +7,7 @@
 CC = gcc
 
 # define any compile-time flags
-CFLAGS	:= -Wall -Wextra -g
+CFLAGS	:= -Wall -Wextra -g `pkg-config --cflags gtk+-3.0` `pkg-config --libs gtk+-3.0`
 
 # define library paths in addition to /usr/lib
 #   if I wanted to include libraries not in /usr/lib I'd specify
