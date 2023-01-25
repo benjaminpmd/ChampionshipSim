@@ -1,50 +1,30 @@
+# File needed to compile simply the programm
 #
-# 'make'        build executable file 'main'
-# 'make clean'  removes all .o and executable files
-#
+# @authors Alice MABILLE, Benjamin PAUMARD
+# @version 1.0.0
+# @since January 25, 2023
 
-# define the C compiler to use
+# defining constants
+# compiler
 CC = gcc
 
-# define any compile-time flags
-CFLAGS	:= -Wall -Wextra -g `pkg-config --cflags gtk+-3.0` `pkg-config --libs gtk+-3.0`
+# source folder
+SRC := src
 
-# define library paths in addition to /usr/lib
-#   if I wanted to include libraries not in /usr/lib I'd specify
-#   their path using -Lpath, something like:
-LFLAGS =
+# output folder
+OUTPUT := output
 
-# define output directory
-OUTPUT	:= output
+# define flags to be used
+CFLAGS	:= `pkg-config --cflags gtk+-3.0`
 
-# define source directory
-SRC		:= src
-
-# define include directory
-INCLUDE	:= include
-
-# define lib directory
-LIB		:= lib
-
-# define any directories containing header files other than /usr/include
-INCLUDES	:= $(patsubst %,-I%, $(INCLUDEDIRS:%/=%))
-
-# define the C libs
-LIBS		:= $(patsubst %,-L%, $(LIBDIRS:%/=%))
+LFLAGS := `pkg-config --libs gtk+-3.0`
 
 # define the C source files
-SOURCES		:= $(wildcard $(patsubst %,%/*.c, $(SOURCEDIRS)))
+SOURCES := $(wildcard $(SRC_DIR)/*/*.c)
 
 # define the C object files 
-OBJECTS		:= $(SOURCES:.c=.o)
+OBJECTS := $(patsubst $(SRC_DIR)/%, $(BUILD_DIR)/%, $(SOURCES:.c=.o))
 
-#
-# The following part of the makefile is generic; it can be used to 
-# build any executable just by changing the definitions above and by
-# deleting dependencies appended to the file from 'make depend'
-#
-
-OUTPUTMAIN	:= $(call FIXPATH,$(OUTPUT)/$(MAIN))
 
 all: $(OUTPUT) $(MAIN)
 	@echo Executing 'all' complete!
