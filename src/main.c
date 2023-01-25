@@ -1,11 +1,13 @@
-#include <gtk/gtk.h>
-#include <unistd.h>
+#include "../include/config.h"
+#include "../include/libs.h"
 
-static void on_button_clicked(GtkWidget *button, gpointer data) {
+void on_button_clicked(GtkWidget *button, gpointer data) {
     pid_t pid = fork();
     if (pid == 0) {
         // This is the child process
         // Insert code for the process to be forked here
+        printf("Hey, I'm the fork!\n");
+        _exit(0);
     } else if (pid > 0) {
         // This is the parent process
         g_print("Child process with PID %d has been forked.\n", pid);
@@ -15,12 +17,12 @@ static void on_button_clicked(GtkWidget *button, gpointer data) {
     }
 }
 
-int main(int argc, char *argv[]) {
+int main(int argc, char **argv) {
     gtk_init(&argc, &argv);
 
     GtkWidget *window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
     gtk_window_set_title(GTK_WINDOW(window), "Fork Process Example");
-    gtk_window_set_default_size(GTK_WINDOW(window), 300, 200);
+    gtk_window_set_default_size(GTK_WINDOW(window), WIDTH, HEIGHT);
 
     GtkWidget *button = gtk_button_new_with_label("Fork Process");
     g_signal_connect(button, "clicked", G_CALLBACK(on_button_clicked), NULL);
@@ -31,5 +33,5 @@ int main(int argc, char *argv[]) {
 
     gtk_main();
 
-    return 0;
+    return EXIT_SUCCESS;
 }
