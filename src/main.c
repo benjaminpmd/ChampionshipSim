@@ -1,37 +1,32 @@
-#include "../include/config.h"
+#include "../include/gui.h"
 #include "../include/libs.h"
 
-void on_button_clicked(GtkWidget *button, gpointer data) {
-    pid_t pid = fork();
-    if (pid == 0) {
-        // This is the child process
-        // Insert code for the process to be forked here
-        printf("Hey, I'm the fork!\n");
-        _exit(0);
-    } else if (pid > 0) {
-        // This is the parent process
-        g_print("Child process with PID %d has been forked.\n", pid);
-    } else {
-        // Fork failed
-        g_print("Fork failed.\n");
-    }
-}
-
 int main(int argc, char **argv) {
-    gtk_init(&argc, &argv);
+    // init the variable that takes the choice of the user on which version of the app to run
+    int userInput = 0;
+    
+    while ((userInput != 1) && (userInput != 2)) {
+        // ask the user what version must be used
+        printf("> Select the version of the app to use:\n1: CLI version\n2: GUI version\nChoice (1 or 2): ");
+        scanf("%d", &userInput);
+        // act depending on the user input
+        switch (userInput) {
 
-    GtkWidget *window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
-    gtk_window_set_title(GTK_WINDOW(window), "Fork Process Example");
-    gtk_window_set_default_size(GTK_WINDOW(window), WIDTH, HEIGHT);
+        case 1:
+            // case one is cli
+            printf("Command currently unavailable.\n");
+            break;
+        
+        case 2:
+            // case two is GUI
+            runGui(argc, argv);
+            break;
 
-    GtkWidget *button = gtk_button_new_with_label("Fork Process");
-    g_signal_connect(button, "clicked", G_CALLBACK(on_button_clicked), NULL);
-
-    gtk_container_add(GTK_CONTAINER(window), button);
-
-    gtk_widget_show_all(window);
-
-    gtk_main();
-
+        default:
+            // default case to avoid any wrong input
+            printf("The input you entered is not correct, please try again.\n");
+            break;
+        }
+    }
     return EXIT_SUCCESS;
 }

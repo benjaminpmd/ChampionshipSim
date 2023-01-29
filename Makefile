@@ -20,17 +20,14 @@ CFLAGS	:= `pkg-config --cflags gtk+-3.0`
 LFLAGS := `pkg-config --libs gtk+-3.0`
 
 # define the C source files
-SOURCES := $(wildcard $(SRC_DIR)/*/*.c)
+SOURCES := $(wildcard $(SRC_DIR)/*.c)
 
 # define the C object files 
 OBJECTS := $(patsubst $(SRC_DIR)/%, $(BUILD_DIR)/%, $(SOURCES:.c=.o))
 
-
-all: $(OUTPUT) $(MAIN)
+all: $(MAIN)
 	@echo Executing 'all' complete!
-
-$(OUTPUT):
-	$(MD) $(OUTPUT)
+	@echo $(SOURCES)
 
 $(MAIN): $(OBJECTS) 
 	$(CC) $(CFLAGS) $(INCLUDES) -o $(OUTPUTMAIN) $(OBJECTS) $(LFLAGS) $(LIBS)
