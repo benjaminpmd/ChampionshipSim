@@ -7,6 +7,9 @@
 */
 #ifndef __GUI__
 #define __GUI__
+#include "./libs.h"
+
+void on_button_clicked(GtkWidget *button, gpointer data);
 
 /**
  * Procedure that runs the GUI

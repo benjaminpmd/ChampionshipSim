@@ -2,6 +2,22 @@
 #include "../include/gui.h"
 #include "../include/config.h"
 
+void on_button_clicked(GtkWidget *button, gpointer data) {
+    pid_t pid = fork();
+    if (pid == 0) {
+        // This is the child process
+        // Insert code for the process to be forked here
+        printf("Hey, I'm the fork!\n");
+        _exit(0);
+    } else if (pid > 0) {
+        // This is the parent process
+        g_print("Child process with PID %d has been forked.\n", pid);
+    } else {
+        // Fork failed
+        g_print("Fork failed.\n");
+    }
+}
+
 void runGui(int argc, char **argv) {
     gtk_init(&argc, &argv);
 

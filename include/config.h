@@ -9,10 +9,10 @@
 #define __CONFIG__
 
 /* width of the gui */
-#define WIDTH 1366
+#define WIDTH 1000
 
 /* height of the gui */
-#define HEIGHT 768
+#define HEIGHT 500
 
 /* title of the program */
 #define TITLE "Tournament Simulator"

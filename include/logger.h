@@ -24,7 +24,7 @@
 /**
  * The level to select, only messages with an equal or higher level will be saved and/or printed.
  */
-#define LEVEL INFO
+#define LEVEL DEBUG
 
 /**
  * An option to print data on screen.
