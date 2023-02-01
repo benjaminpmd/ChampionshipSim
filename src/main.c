@@ -1,9 +1,9 @@
 #include "../include/gui.h"
 #include "../include/libs.h"
 #include "../include/logger.h"
+#include "../include/structuresFunctions.h"
 
 int main(int argc, char **argv) {
-    logDebug("Salut");
     // init the variable that takes the choice of the user on which version of the app to run
     int userInput = 0;
     

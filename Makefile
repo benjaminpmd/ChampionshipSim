@@ -32,7 +32,7 @@ all: $(OBJECTS)
 	@$(CC) $(CFLAGS) $(OBJECTS) -o $(OUTPUT_DIR)/main $(LFLAGS)
 	@echo "✅ Build complete 🥳"
 
-$(BUILD_DIR)/%.o: $(SRC_DIR)/%.c create-build-dir create-output-dir
+$(BUILD_DIR)/%.o: $(SRC_DIR)/%.c clean create-build-dir create-output-dir
 	@$(CC) $(CFLAGS) -c $< -o $@ $(LFLAGS)
 
 $(BUILD_DIR)/main.o: $(SRC_DIR)/main.c
@@ -61,3 +61,8 @@ run-gui:
 run-cli:
 	@echo "🚀 executing CLI version"
 	@./output/main
+
+
+doxygen:
+	@doxygen
+	@echo "✅ Documentation generated 📚"

@@ -13,7 +13,7 @@ void logDebug(char *message) {
         strftime(timeString, 30, "%d/%m/%Y %H:%M:%S", ptime);
         
         // format the data to save
-        snprintf(data, MAX_MESSAGE_SIZE, "%s - ⚙️ DEBUG: %s\n", timeString,  message);
+        snprintf(data, MAX_MESSAGE_SIZE, "%s - DEBUG: %s\n", timeString,  message);
         
         // if the option to print datas is enable, print data
         if (PRINT_DATA) {
@@ -44,7 +44,7 @@ void logInfo(char *message) {
         strftime(timeString, 30, "%d/%m/%Y %H:%M:%S", ptime);
         
         // format the data to save
-        snprintf(data, MAX_MESSAGE_SIZE, "%s - INFO - Client: %s\n", timeString,  message);
+        snprintf(data, MAX_MESSAGE_SIZE, "%s - INFO: %s\n", timeString,  message);
         
         // if the option to print datas is enable, print data
         if (PRINT_DATA) {

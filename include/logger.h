@@ -9,7 +9,6 @@
 #define __LOGGER__
 
 #include "libs.h"
-#include "config.h"
 
 /**
  * The path of the file to save data in.
