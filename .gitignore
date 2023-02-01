@@ -54,3 +54,5 @@ dkms.conf
 .vscode
 output/*
 *.log
+
+/docs/*
