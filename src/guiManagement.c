@@ -1,5 +1,4 @@
-#include "../include/libs.h"
-#include "../include/gui.h"
+#include "../include/guiManagement.h"
 #include "../include/config.h"
 
 void on_button_clicked(GtkWidget *button, gpointer data) {

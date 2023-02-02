@@ -56,11 +56,11 @@ run:
 
 run-gui:
 	@echo "🚀 executing GUI version"
-	@./output/main
+	@./output/main --graphical
 
 run-cli:
 	@echo "🚀 executing CLI version"
-	@./output/main
+	@./output/main -i ./assets/input.txt
 
 
 doxygen:

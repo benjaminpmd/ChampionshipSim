@@ -17,7 +17,7 @@ void logDebug(char *message) {
         
         // if the option to print datas is enable, print data
         if (PRINT_DATA) {
-            printf("%s", data);
+            fprintf(stdout, "%s", data);
         }
 
         if (SAVE_DATA) {
@@ -48,7 +48,7 @@ void logInfo(char *message) {
         
         // if the option to print datas is enable, print data
         if (PRINT_DATA) {
-            printf("%s", data);
+            fprintf(stdout, "%s", data);
         }
 
         if (SAVE_DATA) {
@@ -79,7 +79,7 @@ void logWarning(char *message) {
         
         // if the option to print datas is enable, print data
         if (PRINT_DATA) {
-            printf("%s", data);
+            fprintf(stdout, "%s", data);
         }
 
         if (SAVE_DATA) {
@@ -111,7 +111,7 @@ void logError(char *message) {
         
         // if the option to print datas is enable, print data
         if (PRINT_DATA) {
-            printf("%s", data);
+            fprintf(stderr, "%s", data);
         }
 
         if (SAVE_DATA) {
@@ -125,3 +125,34 @@ void logError(char *message) {
     }
 }
 
+
+void logCritical(char *message) {
+    // check if the level select is lower than the level of the function
+    if (LEVEL <= CRITICAL) {
+        // if the level is lower create the variables to use
+        char data[MAX_MESSAGE_SIZE], timeString[30];
+        // extract current time
+        time_t timestamp = time(NULL);
+        struct tm *ptime = localtime(&timestamp);
+        
+        // format current time
+        strftime(timeString, 30, "%d/%m/%Y %H:%M:%S", ptime);
+        
+        // format the data to save
+        snprintf(data, MAX_MESSAGE_SIZE, "%s - CRITICAL - Client: %s\n", timeString,  message);
+        
+        // if the option to print datas is enable, print data
+        if (PRINT_DATA) {
+            fprintf(stderr, "%s", data);
+        }
+
+        if (SAVE_DATA) {
+            // open the file to log the information
+            FILE *fptr = fopen(LOG_FILE_PATH, "a");
+            // append the data
+            fputs(data, fptr);
+            // close the file
+            fclose(fptr);
+        }
+    }
+}

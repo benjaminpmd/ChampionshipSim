@@ -28,7 +28,7 @@
 /**
  * An option to print data on screen.
  */
-#define PRINT_DATA false
+#define PRINT_DATA true
 
 /**
  * An option to save data in a file.
@@ -64,5 +64,12 @@ void logWarning(char *message);
  * @param message the message to save/print.
  */
 void logError(char *message);
+
+/**
+ * This function save an critical message into the log file. The message will only be saved if the selected level is equal or lower than critical.
+ * 
+ * @param message the message to save/print.
+ */
+void logCritical(char *message);
 
 #endif

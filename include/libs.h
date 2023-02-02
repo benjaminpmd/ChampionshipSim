@@ -8,15 +8,11 @@
 #ifndef __LIBS__
 #define __LIBS__
 
-/* Native libraries headers */
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
 #include <string.h>
 #include <time.h>
 #include <unistd.h>
-
-/* Requiers installation */
-#include <gtk/gtk.h>
 
 #endif

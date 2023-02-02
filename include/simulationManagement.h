@@ -5,7 +5,7 @@
  * @version 1.0.0
  * @since February, 01 2023
 */
-#ifndef __SIMULATION_SYSTEM__
-#define __SIMULATION_SYSTEM__
+#ifndef __SIMULATION_MANAGEMENT__
+#define __SIMULATION_MANAGEMENT__
 
 #endif
