@@ -8,6 +8,7 @@
 #ifndef __SIMULATION_MANAGEMENT__
 #define __SIMULATION_MANAGEMENT__
 
+#include <stdbool.h>
 #include "./structures.h"
 
 /**
@@ -23,7 +24,8 @@ Team* extractTeams(char* buffer);
  * 
  * @param inputPath the path of the file to get the teams from.
  * @param outputPath the path of the file to export the results.
+ * @param manualScoring the boolean wether the score should be manual or not.
 */
-void simulate(char* inputPath, char* outputPath);
+void runSimulation(char* inputPath, char* outputPath, bool manualScoring);
 
 #endif

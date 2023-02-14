@@ -20,4 +20,6 @@
 /* version of the program */
 #define VERSION "0.0.1"
 
+#define DEFAULT_OUTPUT_PATH "./results.csv"
+
 #endif

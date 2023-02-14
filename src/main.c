@@ -1,3 +1,4 @@
+#include "../include/config.h"
 #include "../include/guiManagement.h"
 #include "../include/simulationManagement.h"
 #include "../include/libs.h"
@@ -18,7 +19,7 @@ int main(int argc, char **argv) {
                 ////////////////////////
                 // TEST SECTION
 
-                simulate(argv[2], NULL);
+                runSimulation(argv[2], DEFAULT_OUTPUT_PATH, false);
                 
                 // END OF TEST SECTION
                 ////////////////////////

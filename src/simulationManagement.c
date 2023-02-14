@@ -9,7 +9,7 @@ Team* extractTeams(char* buffer) {
     return teams;
 }
 
-void simulate(char* inputPath, char* outputPath) {
+void runSimulation(char* inputPath, char* outputPath, bool manualScoring) {
     char buffer[MAX_MESSAGE_SIZE];
     readFile(inputPath, buffer);
     Team* teams = extractTeams(buffer);
