@@ -8,11 +8,15 @@
 #ifndef __FILE_MANAGEMENT__
 #define __FILE_MANAGEMENT__
 
-#include "libs.h"
-
 #define BUFFER_SIZE 2048
 
-char* readFile(char* path);
+/**
+ * Function that read a file and returns the buffer.
+ * 
+ * @param path path of the file to read.
+ * @return the buffer of the file, the content.
+*/
+void readFile(char* path, char* buffer);
 
 void writeFile(char* path, char* data);
 

@@ -11,8 +11,6 @@
 #include "./libs.h"
 #include <gtk/gtk.h>
 
-
-
 void on_button_clicked(GtkWidget *button, gpointer data);
 
 /**

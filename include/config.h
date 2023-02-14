@@ -15,7 +15,7 @@
 #define HEIGHT 500
 
 /* title of the program */
-#define TITLE "Tournament Simulator"
+#define TITLE "Championship Sim"
 
 /* version of the program */
 #define VERSION "0.0.1"

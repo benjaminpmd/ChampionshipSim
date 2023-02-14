@@ -1,8 +1,7 @@
 #include "../include/guiManagement.h"
+#include "../include/simulationManagement.h"
 #include "../include/libs.h"
 #include "../include/logger.h"
-#include "../include/structuresFunctions.h"
-#include "../include/fileManagement.h"
 
 int main(int argc, char **argv) {
     // init the variable that takes the choice of the user on which version of the app to run
@@ -18,8 +17,8 @@ int main(int argc, char **argv) {
                 logInfo("starting CLI with input file");
                 ////////////////////////
                 // TEST SECTION
-                
-                readFile(argv[2]);
+
+                simulate(argv[2], NULL);
                 
                 // END OF TEST SECTION
                 ////////////////////////

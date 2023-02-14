@@ -1,20 +1,29 @@
+#include "../include/libs.h"
 #include "../include/fileManagement.h"
 #include "../include/logger.h"
 
-char* readFile(char* path) {
-    FILE *f;
-    char buffer[BUFFER_SIZE];
+void readFile(char* path, char* buffer) {
 
-    f = fopen(path, "r");
-    if (f == NULL) {
-        char message[MAX_MESSAGE_SIZE];
-        snprintf(message, MAX_MESSAGE_SIZE, "could not open the following path: %s\n", path);
-        logError(message);
-        exit(EXIT_SUCCESS);
+    /* init variables */
+    FILE *fp;
+
+    /* open the file to read it */
+    fp = fopen(path, "r");
+
+    /* check if the file pointer is null */
+    if (fp == NULL) {
+      /* log the message */
+      logCritical("could not open the following path");
+      /* exit the process */
+      exit(EXIT_FAILURE);
     }
 
-    while (fgets(buffer, BUFFER_SIZE, f) != NULL) {
-      printf("%s", buffer);
+    /* if the function that gets the buffer returns is not null */
+    if (fgets(buffer, BUFFER_SIZE, fp) != NULL) {
+      /* close the file pointer */
+      fclose(fp);
+      /* log the message */
+      logDebug("Buffer loaded from the file");
     }
 }
 
