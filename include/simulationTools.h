@@ -5,8 +5,8 @@
  * @version 1.0.0
  * @since February, 01 2023
 */
-#ifndef __SIMULATION_MANAGEMENT__
-#define __SIMULATION_MANAGEMENT__
+#ifndef __SIMULATION_TOOLS__
+#define __SIMULATION_TOOLS__
 
 #include <stdbool.h>
 #include "./structures.h"
@@ -17,7 +17,7 @@
  * @param buffer the buffer to get the teams from.
  * @return an array of teams
 */
-Team* extractTeams(char* buffer);
+TeamList extractTeams(char* buffer);
 
 /**
  * launch the simulation from a file path.

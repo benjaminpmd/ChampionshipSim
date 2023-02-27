@@ -8,14 +8,17 @@
 #ifndef __STRUCTURES__
 #define __STRUCTURES__
 
+#include <stdbool.h>
+
 /**
  * Structure of a team.
  * It contains a rank and a score.
 */
 typedef struct team {
+    char* name;
     int rank;
-    int score;
-} Team;
+    bool active;
+} *Team;
 
 /**
  * Structure of a game.
@@ -23,7 +26,15 @@ typedef struct team {
 */
 typedef struct game {
     Team firstTeam;
+    int firstTeamScore;
     Team secondTeam;
-} Game;
+    int secondTeamScore;
+} *Game;
+
+typedef struct team_list {
+    Team team;
+    struct team_list* previous;
+    struct team_list* next;
+} *TeamList;
 
 #endif
