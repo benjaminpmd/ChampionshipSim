@@ -4,6 +4,8 @@
 #include "../include/libs.h"
 #include "../include/logger.h"
 
+char* filePath;
+
 int main(int argc, char **argv) {
     // init the variable that takes the choice of the user on which version of the app to run
     switch (argc) {

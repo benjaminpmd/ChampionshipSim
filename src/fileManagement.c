@@ -27,4 +27,25 @@ void readFile(char* path, char* buffer) {
     }
 }
 
-void writeFile(char* path, char* data) {}
+void writeFile(char* path, char* buffer) {
+  /* init file pointer */
+  FILE* fp;
+
+  fp = fopen(path, "w");
+
+  strncat(buffer, "\n", 2);
+
+  fwrite(buffer, strlen(buffer), 1, fp);
+
+}
+
+void appendFile(char* path, char* buffer) {
+  /* init file pointer */
+  FILE* fp;
+
+  fp = fopen(path, "a");
+
+  strncat(buffer, "\n", 2);
+  logDebug("Compiled");
+  fwrite(buffer, strlen(buffer), 1, fp);
+}

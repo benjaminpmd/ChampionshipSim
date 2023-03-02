@@ -18,6 +18,14 @@
 */
 void readFile(char* path, char* buffer);
 
+/**
+ * TODO: documentation
+*/
 void writeFile(char* path, char* data);
+
+/**
+ * TODO: documentation
+*/
+void appendFile(char* path, char* buffer);
 
 #endif
