@@ -5,7 +5,7 @@
 #include "../include/structuresFunctions.h"
 
 TeamList extractTeams(char* buffer) {
-    TeamList teams;
+    TeamList teams = initTeamList();
 
     char* teamName = strtok(buffer, ";");
     // loop through the string to extract all other tokens
