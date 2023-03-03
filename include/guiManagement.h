@@ -14,7 +14,7 @@
 void on_button_clicked(GtkWidget *button, gpointer data);
 
 /**
- * Procedure that runs the GUI
+ * Procedure that runs the GUI.
 */
 void runGui(int argc, char **argv);
 

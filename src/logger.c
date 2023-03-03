@@ -1,5 +1,25 @@
 #include "../include/logger.h"
 
+void saveData(char* data) {
+
+    if (SAVE_DATA) {
+
+        FILE *fp = fopen(LOG_FILE_PATH, "a");
+
+        if (fp == NULL) {
+            system("mkdir logs");
+            fp = fopen(LOG_FILE_PATH, "a");
+        }
+        if (fp != NULL) {
+            /* append the data */
+            fputs(data, fp);
+            /* close the file */
+            fclose(fp);
+        }
+    }
+}
+
+
 void logDebug(char *message) {
     // check if the level select is lower than the level of the function
     if (LEVEL <= DEBUG) {
@@ -20,14 +40,7 @@ void logDebug(char *message) {
             fprintf(stdout, "%s", data);
         }
 
-        if (SAVE_DATA) {
-            // open the file to log the information
-            FILE *fptr = fopen(LOG_FILE_PATH, "a");
-            // append the data
-            fputs(data, fptr);
-            // close the file
-            fclose(fptr);
-        }
+        saveData(data);
     }
 }
 
@@ -51,14 +64,7 @@ void logInfo(char *message) {
             fprintf(stdout, "%s", data);
         }
 
-        if (SAVE_DATA) {
-            // open the file to log the information
-            FILE *fptr = fopen(LOG_FILE_PATH, "a");
-            // append the data
-            fputs(data, fptr);
-            // close the file
-            fclose(fptr);
-        }
+        saveData(data);
     }
 }
 
@@ -82,14 +88,7 @@ void logWarning(char *message) {
             fprintf(stdout, "%s", data);
         }
 
-        if (SAVE_DATA) {
-            // open the file to log the information
-            FILE *fptr = fopen(LOG_FILE_PATH, "a");
-            // append the data
-            fputs(data, fptr);
-            // close the file
-            fclose(fptr);
-        }
+        saveData(data);
     }
 }
 
@@ -114,14 +113,7 @@ void logError(char *message) {
             fprintf(stderr, "%s", data);
         }
 
-        if (SAVE_DATA) {
-            // open the file to log the information
-            FILE *fptr = fopen(LOG_FILE_PATH, "a");
-            // append the data
-            fputs(data, fptr);
-            // close the file
-            fclose(fptr);
-        }
+        saveData(data);
     }
 }
 
@@ -146,13 +138,6 @@ void logCritical(char *message) {
             fprintf(stderr, "%s", data);
         }
 
-        if (SAVE_DATA) {
-            // open the file to log the information
-            FILE *fptr = fopen(LOG_FILE_PATH, "a");
-            // append the data
-            fputs(data, fptr);
-            // close the file
-            fclose(fptr);
-        }
+        saveData(data);
     }
 }

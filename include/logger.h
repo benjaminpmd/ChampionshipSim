@@ -38,6 +38,13 @@
 typedef enum {DEBUG, INFO, WARNING, ERROR, CRITICAL} levels;
 
 /**
+ * This function saves data in a log file.
+ * 
+ * @param data the data to save.
+*/
+void saveData(char* data);
+
+/**
  * This function save a debug message into the log file. The message will only be saved if the selected level is equal or lower than debug.
  * 
  * @param message the message to save/print.
