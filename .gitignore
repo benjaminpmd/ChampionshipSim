@@ -53,6 +53,7 @@ dkms.conf
 
 .vscode
 /output
+/results
 /build
 /logs
 *.log

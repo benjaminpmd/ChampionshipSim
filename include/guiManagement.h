@@ -13,6 +13,10 @@
 
 void on_button_clicked(GtkWidget *button, gpointer data);
 
+void get_input(GtkWidget *widget, gpointer data);
+
+void display_input(GtkWidget *label, const gchar *str, gpointer data);
+
 /**
  * Procedure that runs the GUI.
 */

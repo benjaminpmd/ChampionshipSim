@@ -24,12 +24,12 @@ typedef struct team {
  * Structure of a game.
  * It contains two teams playing against each others.
 */
-typedef struct game {
+typedef struct match_result {
     Team firstTeam;
     int firstTeamScore;
     Team secondTeam;
     int secondTeamScore;
-} *Game;
+} *MatchResult;
 
 typedef struct team_list {
     Team team;

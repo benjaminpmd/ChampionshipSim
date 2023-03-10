@@ -78,4 +78,9 @@ TeamList getNext(TeamList teams);
 */
 TeamList addTeam(TeamList teams, char* name);
 
+
+MatchResult initMatchResult();
+
+MatchResult allocMatchResult();
+
 #endif

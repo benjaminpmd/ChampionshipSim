@@ -7,7 +7,7 @@ void saveData(char* data) {
         FILE *fp = fopen(LOG_FILE_PATH, "a");
 
         if (fp == NULL) {
-            system("mkdir logs");
+            system("mkdir -p logs");
             fp = fopen(LOG_FILE_PATH, "a");
         }
         if (fp != NULL) {

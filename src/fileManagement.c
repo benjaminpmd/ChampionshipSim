@@ -33,19 +33,18 @@ void writeFile(char* path, char* buffer) {
 
   fp = fopen(path, "w");
 
-  strncat(buffer, "\n", 2);
+  char writeBuffer[BUFFER_SIZE];
 
-  fwrite(buffer, strlen(buffer), 1, fp);
+  snprintf(writeBuffer, BUFFER_SIZE, "%s\n", buffer);
 
+  fwrite(writeBuffer, strlen(writeBuffer), 1, fp);
 }
 
 void appendFile(char* path, char* buffer) {
   /* init file pointer */
   FILE* fp;
 
-  fp = fopen(path, "a");
+  fp = fopen(path, "w");
 
-  strncat(buffer, "\n", 2);
-  logDebug("Compiled");
-  fwrite(buffer, strlen(buffer), 1, fp);
+  fprintf(fp, "%s\n", buffer);
 }
