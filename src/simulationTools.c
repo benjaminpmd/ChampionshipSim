@@ -29,6 +29,14 @@ TeamList extractData(char *buffer, int *matchDuration)
         extractedString = strtok(NULL, ";");
     }
 
+    while ((counter % 2) == 0) {
+        counter /= 2;
+    }
+    if (counter != 1) {
+        logCritical("Number of teams is not correct.");
+        exit(EXIT_FAILURE);
+    }
+
     return teams;
 }
 
@@ -60,6 +68,7 @@ void simulateMatch(Team firstTeam, Team secondTeam, bool manualScoring, int buff
 void runSimulation(char *inputPath, char *outputPath, bool manualScoring, bool graphical) {
     TeamList teams;
     int matchDuration;
+    char resultBuffer[BUFFER_SIZE] = "first_team_name;first_team_score;second_team_name;second_team_score\n";
 
     if (inputPath != NULL) {
         char buffer[BUFFER_SIZE];
@@ -71,12 +80,14 @@ void runSimulation(char *inputPath, char *outputPath, bool manualScoring, bool g
         teams = extractData(buffer, &matchDuration);
     }
 
+    TeamList t = teams;
+
     while (!isEmpty(teams)) {
         printf("%s\n", teams->team->name);
         teams = getNext(teams);
     }
 
-    char *b = "team_1;score_team_1;team_2;score_team_2\nÉvreux;1;Cognac;2\nMont De Marsan;2;Orange;3\n";
+    updateOuputBuffer(resultBuffer, t->team->name, 2, getNext(t)->team->name, 4);
 
-    writeFile(outputPath, b);
+    writeFile(outputPath, resultBuffer);
 }

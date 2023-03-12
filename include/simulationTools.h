@@ -8,8 +8,12 @@
 #ifndef __SIMULATION_TOOLS__
 #define __SIMULATION_TOOLS__
 
-#include <stdbool.h>
 #include "./structures.h"
+
+#include <stdbool.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
 /**
  * launch the simulation from a file path.
@@ -21,7 +25,7 @@
 TeamList extractData(char* buffer, int* matchDuration);
 
 
-void simulateMatch()
+void simulateMatch(Team firstTeam, Team secondTeam, bool manualScoring, int bufferSemid, int scoringSemid);
 
 /**
  * launch the simulation from a file path.

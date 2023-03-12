@@ -10,6 +10,7 @@
 
 #include "structures.h"
 #include <stdlib.h>
+#include <stdbool.h>
 
 /**
  * Function to get the rank of a team.

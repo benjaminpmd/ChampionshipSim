@@ -81,7 +81,7 @@ void logWarning(char *message) {
         strftime(timeString, 30, "%d/%m/%Y %H:%M:%S", ptime);
         
         // format the data to save
-        snprintf(data, MAX_MESSAGE_SIZE, "%s - WARNING - Client: %s\n", timeString,  message);
+        snprintf(data, MAX_MESSAGE_SIZE, "%s - WARNING: %s\n", timeString,  message);
         
         // if the option to print datas is enable, print data
         if (PRINT_DATA) {
@@ -106,7 +106,7 @@ void logError(char *message) {
         strftime(timeString, 30, "%d/%m/%Y %H:%M:%S", ptime);
         
         // format the data to save
-        snprintf(data, MAX_MESSAGE_SIZE, "%s - ERROR - Client: %s\n", timeString,  message);
+        snprintf(data, MAX_MESSAGE_SIZE, "%s - ERROR: %s\n", timeString,  message);
         
         // if the option to print datas is enable, print data
         if (PRINT_DATA) {
@@ -131,7 +131,7 @@ void logCritical(char *message) {
         strftime(timeString, 30, "%d/%m/%Y %H:%M:%S", ptime);
         
         // format the data to save
-        snprintf(data, MAX_MESSAGE_SIZE, "%s - CRITICAL - Client: %s\n", timeString,  message);
+        snprintf(data, MAX_MESSAGE_SIZE, "%s - CRITICAL: %s\n", timeString,  message);
         
         // if the option to print datas is enable, print data
         if (PRINT_DATA) {
