@@ -22,7 +22,7 @@
 
 #define DEFAULT_OUTPUT_PATH "./results.csv"
 
-#define DEFAULT_VALUES "Évreux;Cognac;Mont De Marsan;Orange;Mérignac;Villacoublay;Istres;Solenzara"
+#define DEFAULT_VALUES "Évreux;Cognac;Mont De Marsan;Orange;Mérignac;Villacoublay;Istres;Solenzara;time=3"
 
 
 #endif

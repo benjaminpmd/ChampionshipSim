@@ -15,9 +15,13 @@
  * launch the simulation from a file path.
  * 
  * @param buffer the buffer to get the teams from.
+ * @param matchDuration the duration of each match.
  * @return an array of teams
 */
-TeamList extractTeams(char* buffer);
+TeamList extractData(char* buffer, int* matchDuration);
+
+
+void simulateMatch()
 
 /**
  * launch the simulation from a file path.

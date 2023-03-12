@@ -1,5 +1,6 @@
 #ifndef __IPCTOOLS__
 #define __IPCTOOLS__
+
 #include <unistd.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -13,7 +14,9 @@
 #include <sys/wait.h>
 #include <semaphore.h>
 
-#define SEM_ERROR_CODE -1
+#define ERROR_CODE -1
+
+#define SHM_SIZE 1024
 
 union semun {
     int val;    /* Value for SETVAL */
@@ -56,5 +59,17 @@ void V(int semid);
  * @return an integer which is -1 if it's already been freed, 0 otherwise.
  */
 int semfree(int semid);
+
+void* shmalloc(key_t key, int size);
+
+int shmfree(key_t key);
+
+int msgalloc(key_t key);
+
+int msgfree (int msgqid);
+
+int msgsend(int msqid, char* msg, int msgSize);
+
+int msgrecv(int msqid, char* msg, int msgSize);
 
 #endif

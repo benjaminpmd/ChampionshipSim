@@ -8,7 +8,11 @@
 #ifndef __LOGGER__
 #define __LOGGER__
 
-#include "libs.h"
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+#include <stdbool.h>
+#include <time.h>
 
 /**
  * The path of the file to save data in.
@@ -33,7 +37,7 @@
 /**
  * An option to save data in a file.
  */
-#define SAVE_DATA true
+#define SAVE_DATA false
 
 typedef enum {DEBUG, INFO, WARNING, ERROR, CRITICAL} levels;
 

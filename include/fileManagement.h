@@ -8,6 +8,14 @@
 #ifndef __FILE_MANAGEMENT__
 #define __FILE_MANAGEMENT__
 
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+#include <unistd.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <dirent.h>
+
 #define BUFFER_SIZE 2048
 
 /**
@@ -22,10 +30,4 @@ void readFile(char* path, char* buffer);
  * TODO: documentation
 */
 void writeFile(char* path, char* data);
-
-/**
- * TODO: documentation
-*/
-void appendFile(char* path, char* buffer);
-
 #endif
