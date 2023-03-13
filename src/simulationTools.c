@@ -3,10 +3,16 @@
 #include "../include/logger.h"
 #include "../include/structuresFunctions.h"
 #include "../include/config.h"
+#include "../include/ipcTools.h"
 
-TeamList extractData(char *buffer, int *matchDuration)
+static sem_t simulationSemaphore;
+static sem_t inputSemaphore;
+key_t simKey;
+key_t inputKey;
+
+TeamItem extractData(char *buffer, int *matchDuration)
 {
-    TeamList teams = initTeamList();
+    TeamItem teams = initTeamItem();
 
     char durationTimeBuffer[10];
 
@@ -51,13 +57,15 @@ void simulateMatch(Team firstTeam, Team secondTeam, bool manualScoring, int buff
     int firstTeamScore = 0;
     int secondTeamScore = 0;
 
-    if (manualScoring)
-    {
+
+    if (manualScoring) {
+        V(scoringSemid);
         printf("Match %s - %s\n", firstTeam->name, secondTeam->name);
         printf("Please enter the score for the team %s: ", firstTeam->name);
-        scanf("%d", &firstTeamScore);
+        scanf(" %l[^\n]", &firstTeamScore);
         printf("Please enter the score for the team %s: ", secondTeam->name);
-        scanf("%d", &firstTeamScore);
+        scanf(" %l[^\n]", &firstTeamScore);
+        P(scoringSemid);
     }
     else
     {
@@ -66,28 +74,54 @@ void simulateMatch(Team firstTeam, Team secondTeam, bool manualScoring, int buff
 }
 
 void runSimulation(char *inputPath, char *outputPath, bool manualScoring, bool graphical) {
-    TeamList teams;
+    /* Creating teams list */
+    TeamItem teams;
+    /* Initiating match duration */
     int matchDuration;
+    /* Initiating result buffer */
     char resultBuffer[BUFFER_SIZE] = "first_team_name;first_team_score;second_team_name;second_team_score\n";
-
+    
+    /* extract teams from file if path is not null */
     if (inputPath != NULL) {
         char buffer[BUFFER_SIZE];
         readFile(inputPath, buffer);
         teams = extractData(buffer, &matchDuration);
     }
+    /* else use default values */
     else {
         char buffer[BUFFER_SIZE] = DEFAULT_VALUES;
         teams = extractData(buffer, &matchDuration);
     }
 
-    TeamList t = teams;
+    /* Preparing semaphores */
+    simKey = ftok("/tmp/match", 1);
+    inputKey;
+    int simulationSemaphore = semalloc(simKey, 0);
+    int inputSemaphore;
 
-    while (!isEmpty(teams)) {
-        printf("%s\n", teams->team->name);
-        teams = getNext(teams);
+    if (manualScoring) {
+        logDebug("Init manual system sem");
+        inputKey = ftok("/tmp/input", 1);
+        inputSemaphore = semalloc(inputKey, 1);
     }
 
-    updateOuputBuffer(resultBuffer, t->team->name, 2, getNext(t)->team->name, 4);
+    for (int i = 0; i < getLength(teams)/2; i+=2) {
 
+        pid_t pid = fork();
+
+        if (pid == 0) {
+            simulateMatch(getTeamAt(teams, i), getTeamAt(teams, i+1), manualScoring, simulationSemaphore, inputSemaphore);
+            exit(EXIT_SUCCESS);
+        }
+        else if (pid == -1) {
+            logError("Could not fork the process for match simulation");
+        }
+        else {
+            // IN THE MAIN PROCESS
+            waitpid(pid, 0, 0);
+        }
+    }
+
+    /* write results into a file */
     writeFile(outputPath, resultBuffer);
 }

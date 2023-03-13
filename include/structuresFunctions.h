@@ -47,38 +47,42 @@ void decrementTeamRank(Team team);
  * 
  * @return an initialzed team list item.
 */
-TeamList initTeamList();
+TeamItem initTeamItem();
 
 /**
  * Function that check if a team list element is empty or not.
  * 
- * @param teams a @see TeamList.
+ * @param teams a @see TeamItem.
  * @return a boolean wether the element is empty or not.
 */
-bool isEmpty(TeamList teams);
+bool isEmpty(TeamItem teams);
 
 /**
  * Function that check if a team list next element is empty or not.
  * 
- * @param teams a @see TeamList.
+ * @param teams a @see TeamItem.
  * @return a boolean wether the next element is empty or not.
 */
-bool hasNext(TeamList teams);
+bool hasNext(TeamItem teams);
 
 /**
  * Function to get the next element of a team list element.
  * 
- * @param teams a @see TeamList.
+ * @param teams a @see TeamItem.
  * @return the next element of the element passed in argument.
 */
-TeamList getNext(TeamList teams);
+TeamItem getNext(TeamItem teams);
+
+
+int getLength(TeamItem teams);
 
 /**
  * Function that create a new Team with a string name.
  * TODO: end documentation
 */
-TeamList addTeam(TeamList teams, char* name);
+TeamItem addTeam(TeamItem teams, char* name);
 
+Team getTeamAt(TeamItem teams, int index);
 
 MatchResult initMatchResult();
 

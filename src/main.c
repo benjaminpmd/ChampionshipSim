@@ -7,13 +7,11 @@
 #include "../include/simulationTools.h"
 #include "../include/logger.h"
 
-char *filePath;
-
-int main(int argc, char **argv)
-{
+int main(int argc, char **argv) {
 
     // create the directory to store results
     system("mkdir -p results");
+    system("mkdir -p tmp");
 
     // check if scoring is manual
     bool manualScoring = false;

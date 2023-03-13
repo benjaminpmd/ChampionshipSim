@@ -47,7 +47,7 @@ clean:
 
 run:
 	@echo "🚀 executing main programm"
-	@./output/main
+	@./output/main --manual-scoring
 
 run-cli:
 	@echo "🚀 executing CLI version"

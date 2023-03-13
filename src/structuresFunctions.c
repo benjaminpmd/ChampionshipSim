@@ -23,29 +23,29 @@ void decrementTeamRank(Team team) {
     team->rank--;
 }
 
-TeamList initTeamList() {
+TeamItem initTeamItem() {
     return NULL;
 }
 
-bool isEmpty(TeamList teams) {
+bool isEmpty(TeamItem teams) {
     if (teams == NULL) {
         return true;
     }
     return false;
 }
 
-bool hasNext(TeamList teams) {
+bool hasNext(TeamItem teams) {
     if (isEmpty(teams->next)) {
         return false;
     }
     return true;
 }
 
-TeamList getNext(TeamList teams) {
+TeamItem getNext(TeamItem teams) {
     return teams->next;
 }
 
-TeamList addTeam(TeamList teams, char* name) {
+TeamItem addTeam(TeamItem teams, char* name) {
     
     /* creates the new team */
     Team newTeam = (Team) malloc(sizeof(struct team));
@@ -54,18 +54,18 @@ TeamList addTeam(TeamList teams, char* name) {
     newTeam->rank = 0;
     newTeam->name = name;
 
-    TeamList newListItem = (TeamList) malloc(sizeof(struct team_list));
+    TeamItem newListItem = (TeamItem) malloc(sizeof(struct team_item));
     newListItem->team = newTeam;
-    newListItem->next = initTeamList();
+    newListItem->next = initTeamItem();
 
 
     if (isEmpty(teams)) {
-        newListItem->previous = initTeamList();
+        newListItem->previous = initTeamItem();
         teams = newListItem;
     }
     else {
         /* iterate over the team to find the last element */
-        TeamList teamIterator = teams;
+        TeamItem teamIterator = teams;
 
         /* find the last element of the list */
         while(hasNext(teamIterator)) {
@@ -78,4 +78,28 @@ TeamList addTeam(TeamList teams, char* name) {
     }
 
     return teams;
+}
+
+int getLength(TeamItem teams) {
+    int counter = 0;
+    
+    while(!isEmpty(teams) && hasNext(teams)) {
+        counter++;
+        teams = getNext(teams);
+    }
+    return counter;
+}
+
+Team getTeamAt(TeamItem teams, int index) {
+    int length = getLength(teams);
+    int i = 0;
+    Team team = NULL;
+    while ((i < index) && (i < length)) {
+        teams = getNext(teams);
+        i++;
+        if (i == index) {
+            team = teams->team;
+        }
+    }
+    return team;
 }

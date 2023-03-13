@@ -37,7 +37,7 @@
 /**
  * An option to save data in a file.
  */
-#define SAVE_DATA false
+#define SAVE_DATA true
 
 typedef enum {DEBUG, INFO, WARNING, ERROR, CRITICAL} levels;
 

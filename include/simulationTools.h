@@ -22,7 +22,7 @@
  * @param matchDuration the duration of each match.
  * @return an array of teams
 */
-TeamList extractData(char* buffer, int* matchDuration);
+TeamItem extractData(char* buffer, int* matchDuration);
 
 
 void simulateMatch(Team firstTeam, Team secondTeam, bool manualScoring, int bufferSemid, int scoringSemid);

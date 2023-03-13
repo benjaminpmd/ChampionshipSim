@@ -31,10 +31,10 @@ typedef struct match_result {
     int secondTeamScore;
 } *MatchResult;
 
-typedef struct team_list {
+typedef struct team_item {
     Team team;
-    struct team_list* previous;
-    struct team_list* next;
-} *TeamList;
+    struct team_item* previous;
+    struct team_item* next;
+} *TeamItem;
 
 #endif
