@@ -100,28 +100,44 @@ int shmfree(key_t key) {
         logError("Error getting shared memory segment ID");
         return ERROR_CODE;
     }
-    if(shmctl(shmid, IPC_RMID, 0) == -1) {
+    if(shmctl(shmid, IPC_RMID, NULL) == -1) {
         logError("Error removing shared memory segment");
         return ERROR_CODE;
     }
     return 0;
 }
 
-int msgalloc(key_t key) {
-    int msgid;
+int msqalloc(key_t key) {
+    int msqid;
 
     // Create the message queue with the given key
-    msgid = msgget(key, IPC_CREAT | 0666);
-    if (msgid == -1) {
+    msqid = msgget(key, IPC_CREAT | 0666);
+    if (msqid == -1) {
         logError("Error creating message queue");
         return 0;
     }
 
-    return msgid;
+    return msqid;
 }
 
-int msgfree(int msgqid);
+int msqfree(int msqid) {
+    if (msgctl(msqid, IPC_RMID, NULL) == -1) {
+        logError("could not free message queue");
+    }
+}
 
-int msgsend(int msqid, char* msg, int msgSize);
+int msqsend(int msqid, Message message) {
+    if (msgsnd(msqid, &message, sizeof(Message), 0) == -1) {
+        logError("Could not send message to the queue");
+        return ERROR_CODE;
+    }
+    return 0;
+}
 
-int msgrecv(int msqid, char* msg, int msgSize);
+int msqrecv(int msqid, Message *message) {
+    if(msgrcv(msqid, &message, sizeof(Message), MSG_TYPE, 0) == -1) {
+        logError("Could not receive message");
+        return ERROR_CODE;
+    }
+    return 0;
+}

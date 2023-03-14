@@ -7,98 +7,131 @@
 */
 #include "../include/structuresFunctions.h"
 
-int getTeamRank(Team team) {
-    return team->rank;
+/***** Team section *****/
+
+Team initTeam() {
+    return NULL;
 }
 
-void setTeamRank(Team team, int rank) {
-    team->rank = rank;
+Team allocTeam() {
+    return malloc(sizeof(struct team));
 }
 
-void incrementTeamRank(Team team) {
-    team->rank++;
+char* getTeamName(Team team) {
+    return team->name;
 }
 
-void decrementTeamRank(Team team) {
-    team->rank--;
+bool hasLost(Team team) {
+    return team->hasLost;
 }
+
+void setTeamName(Team team, char* name) {
+    team->name = name;
+}
+
+void setTeamLoss(Team team, bool hasLost) {
+    team->hasLost = hasLost;
+}
+
+/***** TeamItem list section *****/
 
 TeamItem initTeamItem() {
     return NULL;
 }
 
-bool isEmpty(TeamItem teams) {
-    if (teams == NULL) {
-        return true;
-    }
-    return false;
+TeamItem allocTeamItem() {
+    return malloc(sizeof(struct team_item));
 }
 
-bool hasNext(TeamItem teams) {
-    if (isEmpty(teams->next)) {
+Team getTeam(TeamItem list) {
+    return list->team;
+}
+
+TeamItem getNext(TeamItem list) {
+    return list->next;
+}
+
+void setItemTeam(TeamItem list, Team team) {
+    list->team = team;
+}
+
+void setItemNext(TeamItem list, TeamItem nextItem) {
+    list->next = nextItem;
+}
+
+TeamItem addTeam(TeamItem list, char* name) {
+    
+    /* creates the new team */
+    Team newTeam = allocTeam();
+    TeamItem newTeamItem = allocTeamItem();
+
+    /* setup data of new team */
+    setTeamName(newTeam, name);
+    setTeamLoss(newTeam, false);
+
+    setItemTeam(newTeamItem, newTeam);
+    setItemNext(newTeamItem, initTeamItem());
+
+
+    if (isEmpty(list)) {
+        list = newTeamItem;
+    }
+    else {
+        /* iterate over the team to find the last element */
+        TeamItem iterator = list;
+
+        /* find the last element of the list */
+        while(hasNext(iterator)) {
+            iterator = getNext(iterator);
+        }
+        /* add the new element to the last element of the current list */
+        setItemNext(iterator, newTeamItem);
+    }
+    return list;
+}
+
+bool isEmpty(TeamItem list) {
+    return (list == NULL);
+}
+
+bool hasNext(TeamItem list) {
+    if (isEmpty(list->next)) {
         return false;
     }
     return true;
 }
 
-TeamItem getNext(TeamItem teams) {
-    return teams->next;
-}
-
-TeamItem addTeam(TeamItem teams, char* name) {
-    
-    /* creates the new team */
-    Team newTeam = (Team) malloc(sizeof(struct team));
-    /* setup data of new team */
-    newTeam->active = true;
-    newTeam->rank = 0;
-    newTeam->name = name;
-
-    TeamItem newListItem = (TeamItem) malloc(sizeof(struct team_item));
-    newListItem->team = newTeam;
-    newListItem->next = initTeamItem();
-
-
-    if (isEmpty(teams)) {
-        newListItem->previous = initTeamItem();
-        teams = newListItem;
-    }
-    else {
-        /* iterate over the team to find the last element */
-        TeamItem teamIterator = teams;
-
-        /* find the last element of the list */
-        while(hasNext(teamIterator)) {
-            teamIterator = getNext(teamIterator);
-        }
-        /* add the previous element to the new one */
-        newListItem->previous = teamIterator;
-        /* add the new element to the last element of the current list */
-        teamIterator->next = newListItem;
-    }
-
-    return teams;
-}
-
-int getLength(TeamItem teams) {
+int getLength(TeamItem list) {
     int counter = 0;
     
-    while(!isEmpty(teams)) {
+    while(!isEmpty(list)) {
         counter++;
-        teams = getNext(teams);
+        list = getNext(list);
     }
     return counter;
 }
 
-Team getTeamAt(TeamItem teams, int index) {
-    int length = getLength(teams);
+int getActiveTeams(TeamItem list) {
+    int counter = 0;
+    
+    while(!isEmpty(list)) {
+        if (!hasLost(getTeam(list))) {
+            counter++;
+        }
+        list = getNext(list);
+    }
+    return counter;
+}
+
+Team getTeamAt(TeamItem list, int index) {
+    int length = getLength(list);
     int i = 0;
     Team team = NULL;
-    while ((i <= index) && !isEmpty(teams)) {
+    while ((i <= index) && !isEmpty(list)) {
         if (i == index) {
-            team = teams->team;
+            team = list->team;
         }
-        teams = getNext(teams);
+        list = getNext(list);
         i++;
     }
     return team;

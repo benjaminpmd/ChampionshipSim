@@ -21,19 +21,27 @@
 /**
  * launch the simulation from a file path.
  * 
- * @param buffer the buffer to get the teams from.
+ * @param buffer the buffer to get the list from.
  * @param matchDuration the duration of each match.
- * @return an array of teams
+ * @return an array of list
 */
 TeamItem extractData(char* buffer, int* matchDuration);
 
-
-void simulateMatch(Team firstTeam, Team secondTeam, bool manualScoring, int bufferSemid, int scoringSemid, int matchDuration);
+/**
+ * Function that simulate a match.
+ * 
+ * @param firstTeam the first team in the match.
+ * @param secondTeam the second team in the match.
+ * @param manualScoring wether the score management is automatic or manual.
+ * @param msqKey the key of the message queue to use to send results.
+ * @param matchDuration the duration of a match.
+*/
+void simulateMatch(Team firstTeam, Team secondTeam, bool manualScoring, key_t msqKey, int matchDuration);
 
 /**
  * launch the simulation from a file path.
  * 
- * @param inputPath the path of the file to get the teams from.
+ * @param inputPath the path of the file to get the list from.
  * @param outputPath the path of the file to export the results.
  * @param manualScoring the boolean wether the score should be manual or not.
  * @param graphical the boolean wether the gui is required or not.

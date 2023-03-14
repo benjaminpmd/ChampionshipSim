@@ -13,8 +13,12 @@
 #include <sys/msg.h>
 #include <sys/wait.h>
 #include <semaphore.h>
+#include <sys/time.h>
+#include "structures.h"
 
 #define ERROR_CODE -1
+
+#define MSG_TYPE 1
 
 #define SHM_SIZE 1024
 
@@ -24,6 +28,11 @@ union semun {
     unsigned short  *array;  /* Array for GETALL, SETALL */
     struct seminfo  *__buf;  /* Buffer for IPC_INFO (Linux-specific) */
 };
+
+typedef struct message {
+  long type;
+  MatchResult match;
+} Message;
 
 /**
  * Creates a semaphore and returns -1 in case of errors, 0 else.
@@ -64,12 +73,12 @@ void* shmalloc(key_t key, int size);
 
 int shmfree(key_t key);
 
-int msgalloc(key_t key);
+int msqalloc(key_t key);
 
-int msgfree (int msgqid);
+int msqfree (int msgqid);
 
-int msgsend(int msqid, char* msg, int msgSize);
+int msqsend(int msqid, Message message);
 
-int msgrecv(int msqid, char* msg, int msgSize);
+int msqrecv(int msqid, Message *message);
 
 #endif
