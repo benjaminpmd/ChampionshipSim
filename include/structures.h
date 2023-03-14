@@ -32,9 +32,9 @@ typedef struct team_item {
  * It contains two list playing against each others.
 */
 typedef struct match_result {
-    Team firstTeam;
+    char firstTeam[100];
     int firstTeamScore;
-    Team secondTeam;
+    char secondTeam[100];
     int secondTeamScore;
 } *MatchResult;
 

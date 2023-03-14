@@ -58,10 +58,10 @@ void updateOuputBuffer(char* buffer, MatchResult match) {
     char result[BUFFER_SIZE];
     
     if (match->firstTeamScore > match->secondTeamScore) {
-        snprintf(result, BUFFER_SIZE, "%s;%d;%s;%d;%s\n", match->firstTeam->name, match->firstTeamScore, match->secondTeam->name, match->secondTeamScore, match->firstTeam->name);
+        snprintf(result, BUFFER_SIZE, "%s;%d;%s;%d;%s\n", match->firstTeam, match->firstTeamScore, match->secondTeam, match->secondTeamScore, match->firstTeam);
     }
     else {
-        snprintf(result, BUFFER_SIZE, "%s;%d;%s;%d;%s\n", match->firstTeam->name, match->firstTeamScore, match->secondTeam->name, match->secondTeamScore, match->secondTeam->name);    
+        snprintf(result, BUFFER_SIZE, "%s;%d;%s;%d;%s\n", match->firstTeam, match->firstTeamScore, match->secondTeam, match->secondTeamScore, match->secondTeam);    
     }
 
     strcat(buffer, result);
@@ -70,10 +70,13 @@ void updateOuputBuffer(char* buffer, MatchResult match) {
 void simulateMatch(Team firstTeam, Team secondTeam, bool manualScoring, key_t msqKey, int matchDuration) {
     Message message;
     message.type = MSG_TYPE;
-    message.match->firstTeam = firstTeam;
-    message.match->secondTeam = secondTeam;
-    message.match->firstTeamScore = 0;
-    message.match->secondTeamScore = 0;
+    //strcpy(message.match->firstTeam, firstTeam->name);
+    //strcpy(message.match->secondTeam, secondTeam->name);
+    //message.match->firstTeamScore = 0;
+    //message.match->secondTeamScore = 0;
+
+    int firstTeamScore = 0;
+    int secondTeamScore = 0;
 
     float clock = 0;
     struct timeval start, stop;
@@ -86,9 +89,9 @@ void simulateMatch(Team firstTeam, Team secondTeam, bool manualScoring, key_t ms
     if (manualScoring) {
         printf("\nMatch %s - %s\n", firstTeam->name, secondTeam->name);
         printf("Please enter the score for the team %s: ", firstTeam->name);
-        scanf(" %l[^\n]", &(message.match->firstTeamScore));
+        scanf(" %l[^\n]", &firstTeamScore);
         printf("Please enter the score for the team %s: ", secondTeam->name);
-        scanf(" %l[^\n]", &(message.match->secondTeamScore));
+        scanf(" %l[^\n]", &secondTeamScore);
     }
     else {
         /* announcing beginning of the match */
@@ -107,12 +110,12 @@ void simulateMatch(Team firstTeam, Team secondTeam, bool manualScoring, key_t ms
             /* attribute point */
             switch((random()%2)+1) {
                 case 1:
-                    message.match->firstTeamScore++;
-                    printf("Action in match %s - %s: %s new score: %d\n", firstTeam->name, secondTeam->name, firstTeam->name, message.match->firstTeamScore);
+                    firstTeamScore++;
+                    printf("Action in match %s - %s: %s new score: %d\n", firstTeam->name, secondTeam->name, firstTeam->name, firstTeamScore);
                     break;
                 case 2:
-                    message.match->secondTeamScore++;
-                    printf("Action in match %s - %s: %s new score: %d\n", firstTeam->name, secondTeam->name, secondTeam->name, message.match->secondTeamScore);
+                    secondTeamScore++;
+                    printf("Action in match %s - %s: %s new score: %d\n", firstTeam->name, secondTeam->name, secondTeam->name, secondTeamScore);
                     break;
                 default:
                     logWarning("Trying to attribute point to unknow team");
@@ -123,23 +126,23 @@ void simulateMatch(Team firstTeam, Team secondTeam, bool manualScoring, key_t ms
             clock += (stop.tv_usec - start.tv_usec+1000000.0 * (stop.tv_sec - start.tv_sec));
         }
 
-        if ((message.match->firstTeamScore) == (message.match->secondTeamScore)) {
+        if (firstTeamScore == secondTeamScore) {
             switch((random()%2)+1) {
                 case 1:
-                    message.match->firstTeamScore++;
-                    printf("Action in match %s - %s: %s new score: %d\n", firstTeam->name, secondTeam->name, firstTeam->name, message.match->firstTeamScore);
+                    firstTeamScore++;
+                    printf("Action in match %s - %s: %s new score: %d\n", firstTeam->name, secondTeam->name, firstTeam->name, firstTeamScore);
                     break;
                 case 2:
-                    message.match->secondTeamScore++;
-                    printf("Action in match %s - %s: %s new score: %d\n", firstTeam->name, secondTeam->name, secondTeam->name, message.match->secondTeamScore);
+                    secondTeamScore++;
+                    printf("Action in match %s - %s: %s new score: %d\n", firstTeam->name, secondTeam->name, secondTeam->name, secondTeamScore);
                     break;
                 default:
                     logWarning("Trying to attribute point to unknow team");
             }
         }
-        printf("Match end: %s %d - %d %s\n", firstTeam->name, message.match->firstTeamScore, message.match->secondTeamScore, secondTeam->name);
+        printf("Match end: %s %d - %d %s\n", firstTeam->name, firstTeamScore, secondTeamScore, secondTeam->name);
 
-        msqsend(msqKey, message);
+        //msqsend(msqKey, message);
     }
 }
 
@@ -184,11 +187,6 @@ int runSimulation(char *inputPath, char *outputPath, bool manualScoring, bool gr
     while (getActiveTeams(list) > 1) {
     
         for (int i = 0; i < getLength(list); i+=2) {
-
-            char keyPath[10];
-            snprintf(keyPath, 10, "/tmp/%d", i);
-
-            printf("%s\n", keyPath);
             
             key_t msqKey = ftok("/tmp/", 'a');
 
@@ -209,10 +207,9 @@ int runSimulation(char *inputPath, char *outputPath, bool manualScoring, bool gr
             }
             else {
                 // IN THE MAIN PROCESS
-                Message message;
-                msqrecv(msqid, &message);
-
-                updateOuputBuffer(resultBuffer, message.match);
+                //Message message;
+                //msqrecv(msqid, &message);
+                //updateOuputBuffer(resultBuffer, message.match);
             }
         }
         
