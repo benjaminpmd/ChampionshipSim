@@ -14,6 +14,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <sys/time.h>
+#include <sys/wait.h>
+#include <time.h>
 
 /**
  * launch the simulation from a file path.
@@ -25,7 +28,7 @@
 TeamItem extractData(char* buffer, int* matchDuration);
 
 
-void simulateMatch(Team firstTeam, Team secondTeam, bool manualScoring, int bufferSemid, int scoringSemid);
+void simulateMatch(Team firstTeam, Team secondTeam, bool manualScoring, int bufferSemid, int scoringSemid, int matchDuration);
 
 /**
  * launch the simulation from a file path.
@@ -35,6 +38,6 @@ void simulateMatch(Team firstTeam, Team secondTeam, bool manualScoring, int buff
  * @param manualScoring the boolean wether the score should be manual or not.
  * @param graphical the boolean wether the gui is required or not.
 */
-void runSimulation(char* inputPath, char* outputPath, bool manualScoring, bool graphical);
+int runSimulation(char* inputPath, char* outputPath, bool manualScoring, bool graphical);
 
 #endif

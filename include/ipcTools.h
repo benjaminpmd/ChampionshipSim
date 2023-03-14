@@ -42,14 +42,14 @@ int semalloc(key_t key, int valInit);
  *
  * @param semid the semaphore id.
  */
-void P(int semid);
+int P(int semid);
 
 /**
  * Increments semaphore.
  *
  * @param semid the semaphore id.
  */
-void V(int semid);
+int V(int semid);
 
 /**
  * Frees the semaphore passed in parameter.

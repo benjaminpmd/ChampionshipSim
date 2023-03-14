@@ -29,7 +29,7 @@ int semalloc(key_t key, int valInit) {
     return semid;
 }
 
-void P(int semid) {
+int P(int semid) {
 
     /* create the struct for the buffer */
     struct sembuf op;
@@ -40,10 +40,12 @@ void P(int semid) {
     if(semop(semid, &op, 1) < 0) {
         /* decrement semaphore */
         logError("Error while decrementing the semaphore");
+        return ERROR_CODE;
     }
+    return 0;
 }
 
-void V(int semid) {
+int V(int semid) {
 
     /* create the struct for the buffer */
     struct sembuf op = {0,1,IPC_NOWAIT};
@@ -51,9 +53,10 @@ void V(int semid) {
     if(semop(semid, &op, 1) < 0) {
         //decrement semaphore
         logError("Error while incrementing the semaphore");
+        return ERROR_CODE;
     }
+    return 0;
 }
-
 
 int semfree(int semid) {
 
@@ -117,7 +120,7 @@ int msgalloc(key_t key) {
     return msgid;
 }
 
-int msgfree (int msgqid);
+int msgfree(int msgqid);
 
 int msgsend(int msqid, char* msg, int msgSize);
 

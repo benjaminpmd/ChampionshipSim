@@ -83,7 +83,7 @@ TeamItem addTeam(TeamItem teams, char* name) {
 int getLength(TeamItem teams) {
     int counter = 0;
     
-    while(!isEmpty(teams) && hasNext(teams)) {
+    while(!isEmpty(teams)) {
         counter++;
         teams = getNext(teams);
     }
@@ -94,12 +94,12 @@ Team getTeamAt(TeamItem teams, int index) {
     int length = getLength(teams);
     int i = 0;
     Team team = NULL;
-    while ((i < index) && (i < length)) {
-        teams = getNext(teams);
-        i++;
+    while ((i <= index) && !isEmpty(teams)) {
         if (i == index) {
             team = teams->team;
         }
+        teams = getNext(teams);
+        i++;
     }
     return team;
 }
