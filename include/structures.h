@@ -36,6 +36,6 @@ typedef struct match_result {
     int firstTeamScore;
     Team secondTeam;
     int secondTeamScore;
-} *MatchResult;
+} MatchResult;
 
 #endif

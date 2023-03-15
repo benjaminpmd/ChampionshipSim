@@ -33,10 +33,10 @@ TeamItem extractData(char* buffer, int* matchDuration);
  * @param firstTeam the first team in the match.
  * @param secondTeam the second team in the match.
  * @param manualScoring wether the score management is automatic or manual.
- * @param msqKey the key of the message queue to use to send results.
+ * @param msqid the key of the message queue to use to send results.
  * @param matchDuration the duration of a match.
 */
-void simulateMatch(Team firstTeam, Team secondTeam, bool manualScoring, key_t msqKey, int matchDuration);
+void simulateMatch(Team firstTeam, Team secondTeam, bool manualScoring, int msqid, int matchDuration);
 
 /**
  * launch the simulation from a file path.

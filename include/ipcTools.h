@@ -22,6 +22,8 @@
 
 #define SHM_SIZE 1024
 
+#define BUFFER_SIZE 2048
+
 union semun {
     int val;    /* Value for SETVAL */
     struct semid_ds *buf;    /* Buffer for IPC_STAT, IPC_SET */
@@ -31,7 +33,7 @@ union semun {
 
 typedef struct message {
   long type;
-  MatchResult match;
+  char message[BUFFER_SIZE];
 } Message;
 
 /**
@@ -79,6 +81,6 @@ int msqfree (int msgqid);
 
 int msqsend(int msqid, Message message);
 
-int msqrecv(int msqid, Message *message);
+int msqrecv(int msqid, Message message);
 
 #endif

@@ -74,8 +74,6 @@ void* shmalloc(key_t key, int size) {
 
     shmid = shmget(key, size | SHM_SIZE, IPC_CREAT | 0666);
 
-    printf("%d\n", shmid);
-
     if (shmid == -1) {
         logError("Could not create shared memory");
         return 0;
@@ -134,7 +132,7 @@ int msqsend(int msqid, Message message) {
     return 0;
 }
 
-int msqrecv(int msqid, Message *message) {
+int msqrecv(int msqid, Message message) {
     if(msgrcv(msqid, &message, sizeof(Message), MSG_TYPE, 0) == -1) {
         logError("Could not receive message");
         return ERROR_CODE;

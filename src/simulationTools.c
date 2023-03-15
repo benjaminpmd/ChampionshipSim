@@ -57,24 +57,24 @@ TeamItem extractData(char *buffer, int *matchDuration)
 void updateOuputBuffer(char* buffer, MatchResult match) {
     char result[BUFFER_SIZE];
     
-    if (match->firstTeamScore > match->secondTeamScore) {
-        snprintf(result, BUFFER_SIZE, "%s;%d;%s;%d;%s\n", match->firstTeam->name, match->firstTeamScore, match->secondTeam->name, match->secondTeamScore, match->firstTeam->name);
+    if (match.firstTeamScore > match.secondTeamScore) {
+        snprintf(result, BUFFER_SIZE, "%s;%d;%s;%d;%s\n", match.firstTeam->name, match.firstTeamScore, match.secondTeam->name, match.secondTeamScore, match.firstTeam->name);
     }
     else {
-        snprintf(result, BUFFER_SIZE, "%s;%d;%s;%d;%s\n", match->firstTeam->name, match->firstTeamScore, match->secondTeam->name, match->secondTeamScore, match->secondTeam->name);    
+        snprintf(result, BUFFER_SIZE, "%s;%d;%s;%d;%s\n", match.firstTeam->name, match.firstTeamScore, match.secondTeam->name, match.secondTeamScore, match.secondTeam->name);    
     }
 
     strcat(buffer, result);
 }
 
-void simulateMatch(Team firstTeam, Team secondTeam, bool manualScoring, key_t msqKey, int matchDuration) {
+void simulateMatch(Team firstTeam, Team secondTeam, bool manualScoring, int msqid, int matchDuration) {
     Message message;
+    MatchResult match;
     message.type = MSG_TYPE;
-    message.match = malloc(sizeof(struct match_result));
-    message.match->firstTeam = firstTeam;
-    message.match->secondTeam = secondTeam;
-    message.match->firstTeamScore = 0;
-    message.match->secondTeamScore = 0;
+    match.firstTeam = firstTeam;
+    match.secondTeam = secondTeam;
+    match.firstTeamScore = 0;
+    match.secondTeamScore = 0;
 
     int firstTeamScore = 0;
     int secondTeamScore = 0;
@@ -143,10 +143,15 @@ void simulateMatch(Team firstTeam, Team secondTeam, bool manualScoring, key_t ms
         }
         printf("Match end: %s %d - %d %s\n", firstTeam->name, firstTeamScore, secondTeamScore, secondTeam->name);
 
-        message.match->firstTeamScore = firstTeamScore;
-        message.match->secondTeamScore = secondTeamScore;
+        match.firstTeamScore = firstTeamScore;
+        match.secondTeamScore = secondTeamScore;
 
-        //msqsend(msqKey, message);
+        int msgsize = sizeof(struct match_result);
+        char* t = "Hello World";
+        strcpy(message.message, t);
+        message.type = MSG_TYPE;
+
+        msgsnd(msqid, &message, sizeof(Message), 0);
     }
 }
 
@@ -176,7 +181,15 @@ int runSimulation(char *inputPath, char *outputPath, bool manualScoring, bool gr
     int simSemid = semalloc(simKey, 0);
     int manSemid;
     int clock = 0;
+    int j = 0;
     struct timeval start, stop;
+
+    key_t msqKey = ftok("/tmp/", 65);
+
+    if (msqKey == -1) {
+        logError("could not create key");
+    }
+    int msqid = msqalloc(msqKey);
 
     if (manualScoring) {
         logDebug("Init manual system sem");
@@ -190,18 +203,12 @@ int runSimulation(char *inputPath, char *outputPath, bool manualScoring, bool gr
     /* Start the championship simulation */
     while (getActiveTeams(list) > 1) {
 
+        j=0;
+
         printf("\n\n%d\n\n", getActiveTeams(list));
     
         for (int i = 0; i < getLength(list); i+=2) {
             
-            key_t msqKey = ftok("/tmp/", 'a');
-
-            if (msqKey == -1) {
-                logError("could not create key");
-            }
-            
-            int msqid = msqalloc(msqKey);
-
             pid_t pid = fork();
 
             if (pid == 0) {
@@ -212,29 +219,44 @@ int runSimulation(char *inputPath, char *outputPath, bool manualScoring, bool gr
                 logError("Could not fork the process for match simulation");
             }
             else {
-                /*
-                Message message;
-                msqrecv(msqid, &message);
-
-                if (message.match->firstTeamScore > message.match->secondTeamScore) {
-                    setTeamLoss(message.match->secondTeam, true);
-                }
-                else {
-                    setTeamLoss(message.match->firstTeam, true);
-                }
-
-                updateOuputBuffer(resultBuffer, message.match);
-                */
+                j++;
             }
         }
         
         while((wpid = wait(&status)) > 0);
+
+        for(int i = 0; i < j; i++) {
+
+            printf("Hello\n");
+            
+            Message message;
+            MatchResult match;
+
+            msgrcv(msqid, &message, sizeof(Message), MSG_TYPE, 0);
+            //memcpy(&match, message.message, sizeof(message.message));
+
+            printf("FATHER RESULT: %s\n", message.message);
+            /*
+            if (match.firstTeamScore > match.secondTeamScore) {
+                setTeamLoss(match.secondTeam, true);
+                
+            }
+            else {
+                setTeamLoss(match.firstTeam, true);
+                puts("salut jsuis la");
+            }
+            
+            updateOuputBuffer(resultBuffer, match);
+            */
+        }
     }
 
     gettimeofday(&stop, NULL);
     /* calculate elapsed time */
     clock += (stop.tv_usec - start.tv_usec+1000000.0 * (stop.tv_sec - start.tv_sec))/1000;
     printf("Championship simulation completed in %d seconds.\n", clock/1000);
+
+    msqfree(msqid);
 
     /* write results into a file */
     writeFile(outputPath, resultBuffer);
