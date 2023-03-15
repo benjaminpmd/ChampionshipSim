@@ -22,7 +22,7 @@
 
 #define SHM_SIZE 1024
 
-#define BUFFER_SIZE 2048
+#define MESSAGE_BUFFER_SIZE 512
 
 union semun {
     int val;    /* Value for SETVAL */
@@ -33,7 +33,7 @@ union semun {
 
 typedef struct message {
   long type;
-  char message[BUFFER_SIZE];
+  char message[MESSAGE_BUFFER_SIZE];
 } Message;
 
 /**
@@ -71,7 +71,7 @@ int V(int semid);
  */
 int semfree(int semid);
 
-void* shmalloc(key_t key, int size);
+void* shmalloc(key_t key, int size, void* shmaddr);
 
 int shmfree(key_t key);
 

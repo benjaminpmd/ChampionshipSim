@@ -16,7 +16,7 @@
 #include <stdlib.h>
 #include <dirent.h>
 
-#define BUFFER_SIZE 2048
+#define BUFFER_SIZE 4096
 
 /**
  * Function that read a file and returns the buffer.

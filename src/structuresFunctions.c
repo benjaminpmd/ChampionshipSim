@@ -136,3 +136,20 @@ Team getTeamAt(TeamItem list, int index) {
     }
     return team;
 }
+
+Team getTeamFromName(TeamItem list, char* name) {
+    while (hasNext(list)) {
+        if (strcmp(getTeam(list)->name, name) == 0) {
+            return getTeam(list);
+        }
+        list = getNext(list);
+    }
+    return NULL;
+}
+
+void printTeamItem(TeamItem list) {
+    while (hasNext(list)) {
+        printf("{ Name: %s, hasLost: %d }\n", list->team->name, list->team->hasLost);
+        list = getNext(list);
+    }
+}

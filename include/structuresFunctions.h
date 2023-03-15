@@ -9,8 +9,10 @@
 #define __STRUCTURES_FUNCTIONS__
 
 #include "structures.h"
+#include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
+#include <string.h>
 
 /**
  * Function to init a team.
@@ -153,6 +155,10 @@ int getActiveTeams(TeamItem list);
  * @return the team at the given index or NULL if the team is not found or if the index does not exist.
 */
 Team getTeamAt(TeamItem list, int index);
+
+Team getTeamFromName(TeamItem list, char* name);
+
+void printTeamItem(TeamItem list);
 
 MatchResult initMatchResult();
 

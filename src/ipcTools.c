@@ -68,9 +68,8 @@ int semfree(int semid) {
     return 0;
 }
 
-void* shmalloc(key_t key, int size) {
+void* shmalloc(key_t key, int size, void* shmaddr) {
     int shmid;
-    void* shmaddr;
 
     shmid = shmget(key, size | SHM_SIZE, IPC_CREAT | 0666);
 
