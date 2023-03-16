@@ -17,20 +17,24 @@ Team allocTeam() {
     return malloc(sizeof(struct team));
 }
 
-char* getTeamName(Team team) {
+char* getName(Team team) {
     return team->name;
 }
 
-bool hasLost(Team team) {
-    return team->hasLost;
+int getScore(Team team) {
+    return team->score;
 }
 
-void setTeamName(Team team, char* name) {
+void setName(Team team, char* name) {
     team->name = name;
 }
 
-void setTeamLoss(Team team, bool hasLost) {
-    team->hasLost = hasLost;
+void setScore(Team team, int score) {
+    team->score = score;
+}
+
+void incrementScore(Team team) {
+    team->score++;
 }
 
 /***** TeamItem list section *****/
@@ -66,8 +70,8 @@ TeamItem addTeam(TeamItem list, char* name) {
     TeamItem newTeamItem = allocTeamItem();
 
     /* setup data of new team */
-    setTeamName(newTeam, name);
-    setTeamLoss(newTeam, false);
+    setName(newTeam, name);
+    setScore(newTeam, 0);
 
     setItemTeam(newTeamItem, newTeam);
     setItemNext(newTeamItem, initTeamItem());
@@ -111,18 +115,6 @@ int getLength(TeamItem list) {
     return counter;
 }
 
-int getActiveTeams(TeamItem list) {
-    int counter = 0;
-    
-    while(!isEmpty(list)) {
-        if (!hasLost(getTeam(list))) {
-            counter++;
-        }
-        list = getNext(list);
-    }
-    return counter;
-}
-
 Team getTeamAt(TeamItem list, int index) {
     int length = getLength(list);
     int i = 0;
@@ -135,16 +127,6 @@ Team getTeamAt(TeamItem list, int index) {
         i++;
     }
     return team;
-}
-
-Team getTeamFromName(TeamItem list, char* name) {
-    while (hasNext(list)) {
-        if (strcmp(getTeam(list)->name, name) == 0) {
-            return getTeam(list);
-        }
-        list = getNext(list);
-    }
-    return NULL;
 }
 
 TeamItem removeTeamItem(TeamItem list, TeamItem element) {
@@ -167,6 +149,7 @@ TeamItem removeTeamItem(TeamItem list, TeamItem element) {
     }
 
     if (isEmpty(iterator)) {
+        setItemNext(tmp, initTeamItem());
         return list;
     }
 
@@ -178,7 +161,7 @@ TeamItem removeTeamItem(TeamItem list, TeamItem element) {
 
 void printTeamItem(TeamItem list) {
     while (!isEmpty(list)) {
-        printf("{ Name: %s, hasLost: %d }\n", list->team->name, list->team->hasLost);
+        printf("{ Name: %s, Score: %d }\n", getName(getTeam(list)), getScore(getTeam(list)));
         list = getNext(list);
     }
 }

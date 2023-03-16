@@ -32,7 +32,7 @@
 /**
  * An option to print data on screen.
  */
-#define PRINT_DATA true
+#define PRINT_DATA false
 
 /**
  * An option to save data in a file.

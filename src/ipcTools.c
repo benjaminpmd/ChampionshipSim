@@ -131,8 +131,8 @@ int msqsend(int msqid, Message message) {
     return 0;
 }
 
-int msqrecv(int msqid, Message message) {
-    if(msgrcv(msqid, &message, sizeof(Message), MSG_TYPE, 0) == -1) {
+int msqrecv(int msqid, Message *message) {
+    if(msgrcv(msqid, message, sizeof(Message), MSG_TYPE, 0) == -1) {
         logError("Could not receive message");
         return ERROR_CODE;
     }

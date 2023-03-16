@@ -16,7 +16,7 @@
 */
 typedef struct team {
     char* name;
-    bool hasLost;
+    int score;
 } *Team;
 
 /**
@@ -26,16 +26,5 @@ typedef struct team_item {
     Team team;
     struct team_item* next;
 } *TeamItem;
-
-/**
- * Structure of a game.
- * It contains two list playing against each others.
-*/
-typedef struct match_result {
-    Team firstTeam;
-    int firstTeamScore;
-    Team secondTeam;
-    int secondTeamScore;
-} MatchResult;
 
 #endif

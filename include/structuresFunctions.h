@@ -11,7 +11,6 @@
 #include "structures.h"
 #include <stdio.h>
 #include <stdlib.h>
-#include <stdbool.h>
 #include <string.h>
 
 /**
@@ -34,15 +33,15 @@ Team allocTeam();
  * @param team the team to get data from.
  * @return the name of the team as an char pointer.
 */
-char* getTeamName(Team team);
+char* getName(Team team);
 
 /**
- * Function to get the status of a team.
+ * Function to get the score of a team.
  * 
  * @param team the team to get data from.
- * @return the status of the team as a boolean.
+ * @return the score of the team.
 */
-bool hasLost(Team team);
+int getScore(Team team);
 
 /**
  * Function to set the name of a team.
@@ -50,15 +49,22 @@ bool hasLost(Team team);
  * @param team the team to update.
  * @param name the name of the team.
 */
-void setTeamName(Team team, char* name);
+void setName(Team team, char* name);
 
 /**
- * Function to set the status of a team.
+ * Function to set the score of a team.
  * 
  * @param team the team to update.
- * @param hasLost wether the team has lost or not.
+ * @param score the score of the team.
 */
-void setTeamLoss(Team team, bool hasLost);
+void setScore(Team team, int score);
+
+/**
+ * Function to increment the score of a team.
+ * 
+ * @param team the team to update.
+*/
+void incrementScore(Team team);
 
 /**
  * Function that return an initialzed team list item.
@@ -138,15 +144,6 @@ bool hasNext(TeamItem list);
  * @return the length of the list.
 */
 int getLength(TeamItem list);
-
-/**
- * Function that returns the number of active teams in a list.
- * 
- * @param list the list to get the number from.
- * @return the number of active teams in the list.
-*/
-int getActiveTeams(TeamItem list);
-
 /**
  * Function that returns the team at the given index.
  * 
@@ -156,12 +153,20 @@ int getActiveTeams(TeamItem list);
 */
 Team getTeamAt(TeamItem list, int index);
 
-Team getTeamFromName(TeamItem list, char* name);
-
+/**
+ * Remove an element in a list.
+ * 
+ * @param list the list to remove an element.
+ * @param element the element to remove from the list.
+ * @return the updated list.
+*/
 TeamItem removeTeamItem(TeamItem list, TeamItem element);
 
+/**
+ * Print the content of a list.
+ * 
+ * @param list the list to print the content from.
+*/
 void printTeamItem(TeamItem list);
-
-
 
 #endif

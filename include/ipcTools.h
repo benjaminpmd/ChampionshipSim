@@ -81,6 +81,6 @@ int msqfree (int msgqid);
 
 int msqsend(int msqid, Message message);
 
-int msqrecv(int msqid, Message message);
+int msqrecv(int msqid, Message *message);
 
 #endif
