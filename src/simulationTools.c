@@ -17,9 +17,6 @@ key_t manKey;
 int status = 0;
 pid_t wpid;
 
-TeamItem sharedList;
-
-
 TeamItem extractData(char *buffer, int *matchDuration)
 {
     TeamItem list = initTeamItem();
@@ -150,7 +147,6 @@ void simulateMatch(Team firstTeam, Team secondTeam, bool manualScoring, int msqi
         else {
             snprintf(message.message, MESSAGE_BUFFER_SIZE, "%s;%s;%d;%s;%d\n", firstTeam->name, firstTeam->name, firstTeamScore, secondTeam->name, secondTeamScore); 
         }
-        getTeamFromName(sharedList, "Évreux")->hasLost = true;
 
         /* send the message */
         msgsnd(msqid, &message, sizeof(struct message), 0);
@@ -180,17 +176,6 @@ int runSimulation(char *inputPath, char *outputPath, bool manualScoring, bool gr
         list = extractData(buffer, &matchDuration);
     }
 
-    /* preparing shared memory */
-    key_t shmkey = ftok(".", 'a');
-    int shmid = shmget(shmkey, sizeof(struct team_item), 0666 | IPC_CREAT);
-
-    sharedList = (TeamItem) shmat(shmid, NULL, 0);
-
-    sharedList->team = getTeam(list);
-    sharedList->next = getNext(list);
-
-    printTeamItem(sharedList);
-
     /* Preparing semaphores */
     simKey = ftok("/tmp/result", 1);
     int simSemid = semalloc(simKey, 0);
@@ -208,30 +193,33 @@ int runSimulation(char *inputPath, char *outputPath, bool manualScoring, bool gr
         manSemid = semalloc(manKey, 1);
     }
 
+    /* preparing message queue */
+    key_t msqKey = ftok(".", 65);
+
+    if (msqKey == -1) {
+        logError("could not create key");
+        exit(EXIT_FAILURE);
+    }
+
+    int msqid = msgget(msqKey, 0666 | IPC_CREAT);
+
     /* start counting time passed in the match */
     gettimeofday(&start, NULL);
 
+    printf("%d\n", getLength(list));
+
     /* Start the championship simulation */
-    while (getActiveTeams(sharedList) > 1) {
+    while (getLength(list) > 1) {
 
-        /* preparing message queue */
-        key_t msqKey = ftok(".", 65);
-
-        if (msqKey == -1) {
-            logError("could not create key");
-            exit(EXIT_FAILURE);
-        }
-
-        int msqid = msgget(msqKey, 0666 | IPC_CREAT);
 
         j=0;
     
-        for (int i = 0; i < getLength(sharedList); i+=2) {
+        for (int i = 0; i < getLength(list); i+=2) {
             
             pid_t pid = fork();
 
             if (pid == 0) {
-                simulateMatch(getTeamAt(sharedList, i), getTeamAt(sharedList, i+1), manualScoring, msqid, matchDuration);
+                simulateMatch(getTeamAt(list, i), getTeamAt(list, i+1), manualScoring, msqid, matchDuration);
                 return EXIT_SUCCESS;
             }
             else if (pid == -1) {
@@ -252,13 +240,15 @@ int runSimulation(char *inputPath, char *outputPath, bool manualScoring, bool gr
 
             msgrcv(msqid, &message, sizeof(struct message), MSG_TYPE, IPC_NOWAIT);
 
-            TeamItem iterator = sharedList;
-            TeamItem previous = sharedList;
+            TeamItem iterator = list;
+            TeamItem previous = list;
+
+            logDebug(message.message);
 
             while(hasNext(iterator)) {
 
                 if (strncmp(getTeamName(getTeam(iterator)), message.message, strlen(getTeamName(getTeam(iterator)))) == 0) {
-                    setItemNext(iterator, getNext(getNext(iterator)));
+                    list = removeTeamItem(list, iterator);
                     break;
                     // CHECK THE NEXT ITEM
                 }
@@ -271,11 +261,11 @@ int runSimulation(char *inputPath, char *outputPath, bool manualScoring, bool gr
             updateOuputBuffer(resultBuffer, message.message);
             
         }
-        msqfree(msqid);
-        printTeamItem(sharedList);
-        printf("%d\n", getActiveTeams(sharedList));
+        printTeamItem(list);
+        printf("%d\n", getLength(list));
     }
 
+    msqfree(msqid);
     gettimeofday(&stop, NULL);
     /* calculate elapsed time */
     clock += (stop.tv_usec - start.tv_usec+1000000.0 * (stop.tv_sec - start.tv_sec))/1000;

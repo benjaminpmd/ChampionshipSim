@@ -147,10 +147,37 @@ Team getTeamFromName(TeamItem list, char* name) {
     return NULL;
 }
 
+TeamItem removeTeamItem(TeamItem list, TeamItem element) {
+    TeamItem iterator = list;
+    TeamItem tmp = list;
 
+    if(isEmpty(list)) {
+        return NULL;
+    }
+
+    if (iterator == element) {
+        tmp = list;
+        list = list->next;
+        return list;
+    }
+
+    while (!isEmpty(iterator) && iterator != element) {
+        tmp = iterator;
+        iterator = getNext(iterator);
+    }
+
+    if (isEmpty(iterator)) {
+        return list;
+    }
+
+    if (iterator == element) {
+        setItemNext(tmp, getNext(iterator));
+    }
+    return list;
+}
 
 void printTeamItem(TeamItem list) {
-    while (hasNext(list)) {
+    while (!isEmpty(list)) {
         printf("{ Name: %s, hasLost: %d }\n", list->team->name, list->team->hasLost);
         list = getNext(list);
     }

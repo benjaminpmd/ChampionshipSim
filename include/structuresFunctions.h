@@ -158,10 +158,10 @@ Team getTeamAt(TeamItem list, int index);
 
 Team getTeamFromName(TeamItem list, char* name);
 
+TeamItem removeTeamItem(TeamItem list, TeamItem element);
+
 void printTeamItem(TeamItem list);
 
-MatchResult initMatchResult();
 
-MatchResult allocMatchResult();
 
 #endif
