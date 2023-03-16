@@ -212,7 +212,7 @@ int runSimulation(char *inputPath, char *outputPath, bool manualScoring, bool gr
     gettimeofday(&start, NULL);
 
     /* Start the championship simulation */
-    while (getActiveTeams(list) > 1) {
+    while (getActiveTeams(sharedList) > 1) {
 
         /* preparing message queue */
         key_t msqKey = ftok(".", 65);
@@ -251,6 +251,22 @@ int runSimulation(char *inputPath, char *outputPath, bool manualScoring, bool gr
 
 
             msgrcv(msqid, &message, sizeof(struct message), MSG_TYPE, IPC_NOWAIT);
+
+            TeamItem iterator = sharedList;
+            TeamItem previous = sharedList;
+
+            while(hasNext(iterator)) {
+
+                if (strncmp(getTeamName(getTeam(iterator)), message.message, strlen(getTeamName(getTeam(iterator)))) == 0) {
+                    setItemNext(iterator, getNext(getNext(iterator)));
+                    break;
+                    // CHECK THE NEXT ITEM
+                }
+                else {
+                    previous = iterator;
+                }
+                iterator = getNext(iterator);
+            }
 
             updateOuputBuffer(resultBuffer, message.message);
             

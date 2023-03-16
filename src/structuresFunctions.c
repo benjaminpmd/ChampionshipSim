@@ -147,6 +147,8 @@ Team getTeamFromName(TeamItem list, char* name) {
     return NULL;
 }
 
+
+
 void printTeamItem(TeamItem list) {
     while (hasNext(list)) {
         printf("{ Name: %s, hasLost: %d }\n", list->team->name, list->team->hasLost);
