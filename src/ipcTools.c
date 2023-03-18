@@ -37,9 +37,9 @@ int P(int semid) {
     op.sem_op = -1; /* operation to do on semaphore */
     op.sem_flg = IPC_NOWAIT; /* flag : how to handle interruption */
 
-    if(semop(semid, &op, 1) < 0) {
-        /* decrement semaphore */
-        logError("Error while decrementing the semaphore");
+    int res = semop(semid, &op, 1);
+
+    if (res < 0) {
         return ERROR_CODE;
     }
     return 0;
@@ -48,11 +48,14 @@ int P(int semid) {
 int V(int semid) {
 
     /* create the struct for the buffer */
-    struct sembuf op = {0,1,IPC_NOWAIT};
+    struct sembuf op;
+    op.sem_num = 0;
+    op.sem_op = 1; /* operation to do on semaphore */
+    op.sem_flg = IPC_NOWAIT; /* flag : how to handle interruption */
 
-    if(semop(semid, &op, 1) < 0) {
-        //decrement semaphore
-        logError("Error while incrementing the semaphore");
+    int res = semop(semid, &op, 1);
+
+    if (res < 0) {
         return ERROR_CODE;
     }
     return 0;

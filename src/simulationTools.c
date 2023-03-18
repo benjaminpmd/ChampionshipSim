@@ -15,17 +15,20 @@ key_t manKey;
 int status = 0;
 pid_t wpid;
 
-TeamItem extractData(char *buffer, int *matchDuration)
-{
+TeamItem extractData(char *buffer, int *matchDuration) {
+
+    /* init the team list */
     TeamItem list = initTeamItem();
 
-    char durationTimeBuffer[10];
-
+    /* number of team to check if the number of teams is power of two */
     int counter = 0;
 
+    /* start dividing the content of the file to extract teams */
     char *extractedString = strtok(buffer, ";");
-    // loop through the string to extract all other tokens
+
+    /* loop through the string to extract all other tokens */
     while (extractedString != NULL) {
+        /* check if */
         if (strncmp(extractedString, "time=", strlen("time=")) == 0) {
 
             memmove(extractedString, extractedString + 5, strlen(extractedString) - 5 + 1);
@@ -34,6 +37,7 @@ TeamItem extractData(char *buffer, int *matchDuration)
         }
         else
         {
+            logDebug(extractedString);
             list = addTeam(list, extractedString);
             counter++;
         }
@@ -55,7 +59,7 @@ void updateOuputBuffer(char* buffer, char* result) {
     strcat(buffer, result);
 }
 
-void simulateMatch(Team firstTeam, Team secondTeam, bool manualScoring, int msqid, int matchDuration) {
+void simulateMatch(Team firstTeam, Team secondTeam, int manSemid, int msqid, int matchDuration) {
     
     /* initiating scores */
     setScore(firstTeam, 0);
@@ -73,12 +77,14 @@ void simulateMatch(Team firstTeam, Team secondTeam, bool manualScoring, int msqi
     matchDuration *= 1000000;
 
     /* check if manual scoring is enabled */
-    if (manualScoring) {
+    if (manSemid != -1) {
+        while (P(manSemid) == -1);
         printf("\nMatch %s - %s\n", firstTeam->name, secondTeam->name);
         printf("Please enter the score for the team %s: ", firstTeam->name);
-        scanf(" %l[^\n]", &(firstTeam->score));
+        scanf("%d", &(firstTeam->score));
         printf("Please enter the score for the team %s: ", secondTeam->name);
-        scanf(" %l[^\n]", &(secondTeam->score));
+        scanf("%d", &(secondTeam->score));
+        V(manSemid);
     }
 
     else {
@@ -123,47 +129,47 @@ void simulateMatch(Team firstTeam, Team secondTeam, bool manualScoring, int msqi
             /* calculate elapsed time */
             elapsedTime += (stopTime.tv_usec - startTime.tv_usec+1000000.0 * (stopTime.tv_sec - startTime.tv_sec));
         }
-
-        /* in case of equal score, attribute random point, it act like extension */
-        if (getScore(firstTeam) == getScore(secondTeam)) {
-            switch((random()%2)+1) {
-                case 1:
-                    incrementScore(firstTeam);
-                    printf("\033[34mACTION: match %s - %s: %s has new score: %d\33[0m\n", getName(firstTeam), getName(secondTeam), getName(firstTeam), getScore(firstTeam));
-                    break;
-                case 2:
-                    incrementScore(secondTeam);
-                    printf("\033[34mACTION: match %s - %s: %s has new score: %d\33[0m\n", getName(firstTeam), getName(secondTeam), getName(secondTeam), getScore(secondTeam));
-                    break;
-                default:
-                    logWarning("Trying to attribute point to unknow team");
-            }
-        }
-
-        /* Section of the procedure that manage the return data */
-        
-        /* creating message structure */
-        Message message;
-
-        /* setting message type*/
-        message.type = MSG_TYPE;
-
-        /* setting message content depending on which team is winning and printing result */
-        if (getScore(firstTeam) > getScore(secondTeam)) {
-            printf("\33[33mMATCH END: %s has won against %s ( %d - %d )\33[0m\n", getName(firstTeam), getName(secondTeam), getScore(firstTeam), getScore(secondTeam));
-            snprintf(message.message, MESSAGE_BUFFER_SIZE, "%s;%d;%s;%d\n", getName(secondTeam), getScore(secondTeam), getName(firstTeam), getScore(firstTeam)); 
-        }
-        else {
-            printf("\33[33mMATCH END: %s has won against %s ( %d - %d )\33[0m\n", getName(secondTeam), getName(firstTeam), getScore(secondTeam), getScore(firstTeam));
-            snprintf(message.message, MESSAGE_BUFFER_SIZE, "%s;%d;%s;%d\n", getName(firstTeam), getScore(firstTeam), getName(secondTeam), getScore(secondTeam)); 
-        }
-
-        /* send the message */
-        msqsend(msqid, message);
     }
+
+    /* in case of equal score, attribute random point, it act like extension */
+    if (getScore(firstTeam) == getScore(secondTeam)) {
+        switch((random()%2)+1) {
+            case 1:
+                incrementScore(firstTeam);
+                printf("\033[34mACTION: match %s - %s: %s has new score: %d\33[0m\n", getName(firstTeam), getName(secondTeam), getName(firstTeam), getScore(firstTeam));
+                break;
+            case 2:
+                incrementScore(secondTeam);
+                printf("\033[34mACTION: match %s - %s: %s has new score: %d\33[0m\n", getName(firstTeam), getName(secondTeam), getName(secondTeam), getScore(secondTeam));
+                break;
+            default:
+                logWarning("Trying to attribute point to unknow team");
+        }
+    }
+    /* Section of the procedure that manage the return data */
+    
+    /* creating message structure */
+    Message message;
+    
+    /* setting message type*/
+    message.type = MSG_TYPE;
+    
+    /* setting message content depending on which team is winning and printing result */
+    if (getScore(firstTeam) > getScore(secondTeam)) {
+        printf("\33[33mMATCH END: %s has won against %s ( %d - %d )\33[0m\n", getName(firstTeam), getName(secondTeam), getScore(firstTeam), getScore(secondTeam));
+        snprintf(message.message, MESSAGE_BUFFER_SIZE, "%s;%d;%s;%d\n", getName(secondTeam), getScore(secondTeam), getName(firstTeam), getScore(firstTeam)); 
+    }
+    
+    else {
+        printf("\33[33mMATCH END: %s has won against %s ( %d - %d )\33[0m\n", getName(secondTeam), getName(firstTeam), getScore(secondTeam), getScore(firstTeam));
+        snprintf(message.message, MESSAGE_BUFFER_SIZE, "%s;%d;%s;%d\n", getName(firstTeam), getScore(firstTeam), getName(secondTeam), getScore(secondTeam)); 
+    }
+    
+    /* send the message */
+    msqsend(msqid, message);
 }
 
-int runSimulation(char *inputPath, char *outputPath, bool manualScoring, bool graphical) {
+int runSimulation(char *inputPath, char *outputPath, bool manualScoring) {
     
     /* Creating list for extraction and sharing */
     TeamItem list;
@@ -175,7 +181,7 @@ int runSimulation(char *inputPath, char *outputPath, bool manualScoring, bool gr
     char resultBuffer[BUFFER_SIZE] = "team_that_lost;score_that_lost;team_that_won;score_that_won\n";
 
     /* Initializing semaphore */
-    int manSemid;
+    int manSemid = -1;
 
     /* Initializing values to check time */
     int elapsedTime = 0;
@@ -229,7 +235,7 @@ int runSimulation(char *inputPath, char *outputPath, bool manualScoring, bool gr
             /* if the pid is 0 (this is the child), then simulate a match and exit */
             if (pid == 0) {
                 /* call the function dedicated to the match simulation */
-                simulateMatch(getTeamAt(list, i), getTeamAt(list, i+1), manualScoring, msqid, matchDuration);
+                simulateMatch(getTeamAt(list, i), getTeamAt(list, i+1), manSemid, msqid, matchDuration);
                 /* exit the process once completed */
                 exit(EXIT_SUCCESS);
             }

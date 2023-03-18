@@ -46,16 +46,20 @@ clean:
 	@echo "✅ Cleaned build and output directories 🗑️"
 
 run:
-	@echo "🚀 executing main programm"
+	@echo "🚀 executing main program"
 	@./output/main
 
 run-manual:
-	@echo "🚀 executing main programm"
+	@echo "🚀 executing main program"
 	@./output/main --manual-scoring
 
-run-cli:
-	@echo "🚀 executing CLI version"
+run-input:
+	@echo "🚀 executing program with"
 	@./output/main -i ./assets/input.txt
+
+run-output:
+	@echo "🚀 executing program with"
+	@./output/main --output ./results/end.csv
 
 doxygen:
 	@doxygen
