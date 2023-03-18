@@ -8,7 +8,11 @@
 #ifndef __LOGGER__
 #define __LOGGER__
 
-#include "libs.h"
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+#include <stdbool.h>
+#include <time.h>
 
 /**
  * The path of the file to save data in.
@@ -28,7 +32,7 @@
 /**
  * An option to print data on screen.
  */
-#define PRINT_DATA true
+#define PRINT_DATA false
 
 /**
  * An option to save data in a file.

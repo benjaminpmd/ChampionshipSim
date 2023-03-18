@@ -1,1 +1,1 @@
-Paris;Toulouse;Pontoise;Lyon;Quimper;Massy;Palaiseau;Grenoble
+Paris;Toulouse;Pontoise;Lyon;Quimper;Massy;Palaiseau;Grenoble;time=5

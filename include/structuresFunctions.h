@@ -9,78 +9,164 @@
 #define __STRUCTURES_FUNCTIONS__
 
 #include "structures.h"
+#include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 /**
- * Function to get the rank of a team.
- * 
- * @param team the team to update.
- * @return the rank of the team as an int.
+ * Function to init a team.
+ *
+ * @return a team.
 */
-int getTeamRank(Team team);
+Team initTeam();
 
 /**
- * Function to set the rank of a team.
- * 
- * @param team the team to update.
- * @param rank the score to set.
+ * Function to allocate memory to a team.
+ *
+ * @return a team.
 */
-void setTeamRank(Team team, int rank);
+Team allocTeam();
 
 /**
- * Function to increment the rank of a team.
+ * Function to get the name of a team.
  * 
- * @param team the team to update.
+ * @param team the team to get data from.
+ * @return the name of the team as an char pointer.
 */
-void incrementTeamRank(Team team);
+char* getName(Team team);
 
 /**
- * Function to decrement the rank of a team.
+ * Function to get the score of a team.
+ * 
+ * @param team the team to get data from.
+ * @return the score of the team.
+*/
+int getScore(Team team);
+
+/**
+ * Function to set the name of a team.
+ * 
+ * @param team the team to update.
+ * @param name the name of the team.
+*/
+void setName(Team team, char* name);
+
+/**
+ * Function to set the score of a team.
+ * 
+ * @param team the team to update.
+ * @param score the score of the team.
+*/
+void setScore(Team team, int score);
+
+/**
+ * Function to increment the score of a team.
  * 
  * @param team the team to update.
 */
-void decrementTeamRank(Team team);
+void incrementScore(Team team);
 
 /**
  * Function that return an initialzed team list item.
  * 
  * @return an initialzed team list item.
 */
-TeamList initTeamList();
+TeamItem initTeamItem();
+
+/**
+ * Function that return an allocated team item.
+ * 
+ * @return allocated memory for the list.
+*/
+TeamItem allocTeamItem();
+
+/**
+ * Function to get team from the list.
+ * 
+ * @param list an item of the list.
+ * @return a team.
+*/
+Team getTeam(TeamItem list);
+
+/**
+ * Function to get the next element from the list.
+ * 
+ * @param list an item of the list.
+ * @return the next element.
+*/
+TeamItem getNext(TeamItem list);
+
+/**
+ * Function to set team to the list specified list element.
+ * 
+ * @param list an item of the list.
+ * @param team a team to set to the current element of the list.
+*/
+void setItemTeam(TeamItem list, Team team);
+
+/**
+ * Function to set the next element to the list specified list element.
+ * 
+ * @param list an item of the list.
+ * @param nextItem the next list element to set to the current element of the list.
+*/
+void setItemNext(TeamItem list, TeamItem nextItem);
+
+/**
+ * Function that create a new Team with a string name.
+ * 
+ * @param list an item of the list.
+ * @param name the name of the team to add.
+ * @return a @link TeamItem.
+*/
+TeamItem addTeam(TeamItem list, char* name);
 
 /**
  * Function that check if a team list element is empty or not.
  * 
- * @param teams a @see TeamList.
+ * @param list a @link TeamItem.
  * @return a boolean wether the element is empty or not.
 */
-bool isEmpty(TeamList teams);
+bool isEmpty(TeamItem list);
 
 /**
  * Function that check if a team list next element is empty or not.
  * 
- * @param teams a @see TeamList.
+ * @param list a @link TeamItem.
  * @return a boolean wether the next element is empty or not.
 */
-bool hasNext(TeamList teams);
+bool hasNext(TeamItem list);
 
 /**
- * Function to get the next element of a team list element.
+ * Function that returns the length of a list.
  * 
- * @param teams a @see TeamList.
- * @return the next element of the element passed in argument.
+ * @param list the list to get the length from.
+ * @return the length of the list.
 */
-TeamList getNext(TeamList teams);
+int getLength(TeamItem list);
+/**
+ * Function that returns the team at the given index.
+ * 
+ * @param list the list to get the team from.
+ * @param index the index of the team
+ * @return the team at the given index or NULL if the team is not found or if the index does not exist.
+*/
+Team getTeamAt(TeamItem list, int index);
 
 /**
- * Function that create a new Team with a string name.
- * TODO: end documentation
+ * Remove an element in a list.
+ * 
+ * @param list the list to remove an element.
+ * @param element the element to remove from the list.
+ * @return the updated list.
 */
-TeamList addTeam(TeamList teams, char* name);
+TeamItem removeTeamItem(TeamItem list, TeamItem element);
 
-
-MatchResult initMatchResult();
-
-MatchResult allocMatchResult();
+/**
+ * Print the content of a list.
+ * 
+ * @param list the list to print the content from.
+*/
+void printTeamItem(TeamItem list);
 
 #endif

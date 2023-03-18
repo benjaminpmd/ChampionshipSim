@@ -17,11 +17,6 @@ BUILD_DIR := build
 # output folder
 OUTPUT_DIR := output
 
-# define flags to be used
-CFLAGS	:= `pkg-config --cflags gtk+-3.0`
-
-LFLAGS := `pkg-config --libs gtk+-3.0`
-
 # define the C source files
 SOURCES := $(wildcard $(SRC_DIR)/*.c)
 
@@ -29,14 +24,14 @@ SOURCES := $(wildcard $(SRC_DIR)/*.c)
 OBJECTS := $(patsubst $(SRC_DIR)/%.c, $(BUILD_DIR)/%.o, $(SOURCES))
 
 all: $(OBJECTS)
-	@$(CC) $(CFLAGS) $(OBJECTS) -o $(OUTPUT_DIR)/main $(LFLAGS)
+	@$(CC) $(OBJECTS) -o $(OUTPUT_DIR)/main
 	@echo "✅ Build complete 🥳"
 
 $(BUILD_DIR)/%.o: $(SRC_DIR)/%.c clean create-build-dir create-output-dir
-	@$(CC) $(CFLAGS) -c $< -o $@ $(LFLAGS)
+	@$(CC) -c $< -o $@
 
 $(BUILD_DIR)/main.o: $(SRC_DIR)/main.c
-	@$(CC) $(CFLAGS) -c $< -o $@ $(LFLAGS)
+	@$(CC) -c $< -o $@
 
 create-build-dir:
 	@mkdir build
@@ -51,17 +46,20 @@ clean:
 	@echo "✅ Cleaned build and output directories 🗑️"
 
 run:
-	@echo "🚀 executing main programm"
+	@echo "🚀 executing main program"
 	@./output/main
 
-run-gui:
-	@echo "🚀 executing GUI version"
-	@./output/main --graphical
+run-manual:
+	@echo "🚀 executing main program"
+	@./output/main --manual-scoring
 
-run-cli:
-	@echo "🚀 executing CLI version"
+run-input:
+	@echo "🚀 executing program with"
 	@./output/main -i ./assets/input.txt
 
+run-output:
+	@echo "🚀 executing program with"
+	@./output/main --output ./results/end.csv
 
 doxygen:
 	@doxygen

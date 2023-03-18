@@ -1,65 +1,52 @@
-#include "../include/config.h"
-#include "../include/guiManagement.h"
-#include "../include/simulationTools.h"
-#include "../include/libs.h"
-#include "../include/logger.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <stdbool.h>
 
-char* filePath;
+#include "../include/config.h"
+#include "../include/simulationTools.h"
+#include "../include/logger.h"
 
 int main(int argc, char **argv) {
 
     // create the directory to store results
     system("mkdir -p results");
+    system("mkdir -p tmp");
 
     // check if scoring is manual
     bool manualScoring = false;
 
-    for(int i=0; i < argc; i++) {
+    char* inputPath = NULL;
+    char* outputPath = NULL;
+
+
+    for (int i = 0; i < argc; i++) {
+
+        /* check if manual input of score is requested */
         if ((strcmp(argv[i], "-m") == 0) || (strcmp(argv[i], "--manual-scoring") == 0)) {
             manualScoring = true;
         }
+        /* check if an input file is specified */
+        else if ((strcmp(argv[i], "-i") == 0) || (strcmp(argv[i], "--input") == 0)) {
+            if (i+1 < argc) {
+                inputPath = argv[i+1];
+            }
+            else {
+                puts("Incorrect input, seems like you forgot input path.");
+            }
+        }
+        /* check if an output file is specified */
+        else if ((strcmp(argv[i], "-o") == 0) || (strcmp(argv[i], "--output") == 0)) {
+            if (i+1 < argc) {
+                outputPath = argv[i+1];
+            }
+            else {
+                puts("Incorrect output, seems like you forgot input path.");
+            }
+        }
     }
 
-    // init the variable that takes the choice of the user on which version of the app to run
-    switch (argc) {
-        case 2:
-            if ((strcmp(argv[1], "--graphical") == 0) || (strcmp(argv[1], "-g") == 0)) {
-                logDebug("starting GUI");
-                runSimulation(NULL, DEFAULT_OUTPUT_PATH, manualScoring, true);
-            }
-            break;
-        case 3:
-            if (strcmp(argv[1], "-i") == 0) {
-                logInfo("starting CLI with input file");
-                runSimulation(argv[2], DEFAULT_OUTPUT_PATH, manualScoring, false);
-            }
-            else if (strcmp(argv[1], "-o") == 0) {
-                logInfo("starting CLI with output file");
-                runSimulation(NULL, argv[2], manualScoring, false);
-            }
-            else {
-                logInfo("incorrect input on startup");
-                printf("The parameters you specified are not correct.\n");
-            }
-            break;
-        case 5:
-            if ((strcmp(argv[1], "-i") == 0) && (strcmp(argv[3], "-o") == 0)) {
-                logInfo("starting CLI with input and output files");
-                runSimulation(argv[2], argv[4], manualScoring, false);
-            }
-            else if ((strcmp(argv[1], "-o") == 0) || (strcmp(argv[3], "-i") == 0)) {
-                logInfo("starting CLI with input and output files");
-                runSimulation(argv[4], argv[2], manualScoring, false);
-            }
-            else {
-                logInfo("incorrect input on startup");
-                printf("The parameters you specified are not correct.\n");
-            }
-            break;
-        default:
-            logInfo("starting CLI without input");
-            runSimulation(NULL, DEFAULT_OUTPUT_PATH, manualScoring, false);
-            break;
-    }
+    runSimulation(inputPath, outputPath, manualScoring);
+
     return EXIT_SUCCESS;
 }

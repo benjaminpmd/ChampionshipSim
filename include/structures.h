@@ -16,25 +16,15 @@
 */
 typedef struct team {
     char* name;
-    int rank;
-    bool active;
+    int score;
 } *Team;
 
 /**
- * Structure of a game.
- * It contains two teams playing against each others.
+ * Chained list of teams.
 */
-typedef struct match_result {
-    Team firstTeam;
-    int firstTeamScore;
-    Team secondTeam;
-    int secondTeamScore;
-} *MatchResult;
-
-typedef struct team_list {
+typedef struct team_item {
     Team team;
-    struct team_list* previous;
-    struct team_list* next;
-} *TeamList;
+    struct team_item* next;
+} *TeamItem;
 
 #endif
