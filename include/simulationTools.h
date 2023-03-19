@@ -8,8 +8,6 @@
 #ifndef __SIMULATION_TOOLS__
 #define __SIMULATION_TOOLS__
 
-#include "./structures.h"
-
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -17,6 +15,8 @@
 #include <sys/time.h>
 #include <sys/wait.h>
 #include <time.h>
+
+#include "structures.h"
 
 /**
  * launch the simulation from a file path.

@@ -1,3 +1,10 @@
+/**
+ * File containing all the functions and structure declarations to manage inter process communication.
+ * 
+ * @authors Alice MABILLE, Benjamin PAUMARD
+ * @version 1.0.0
+ * @since February, 01 2023
+*/
 #ifndef __IPCTOOLS__
 #define __IPCTOOLS__
 
@@ -14,15 +21,14 @@
 #include <sys/wait.h>
 #include <semaphore.h>
 #include <sys/time.h>
+
 #include "structures.h"
 
 #define ERROR_CODE -1
 
 #define MSG_TYPE 1
 
-#define SHM_SIZE 1024
-
-#define MESSAGE_BUFFER_SIZE 512
+#define MESSAGE_BUFFER_SIZE 1024
 
 union semun {
     int val;    /* Value for SETVAL */
@@ -31,9 +37,12 @@ union semun {
     struct seminfo  *__buf;  /* Buffer for IPC_INFO (Linux-specific) */
 };
 
+/**
+ * Structure of a message.
+*/
 typedef struct message {
-  long type;
-  char message[MESSAGE_BUFFER_SIZE];
+  long type; /* type of the message */
+  char message[MESSAGE_BUFFER_SIZE]; /* message */
 } Message;
 
 /**
@@ -71,16 +80,36 @@ int V(int semid);
  */
 int semfree(int semid);
 
-void* shmalloc(key_t key, int size, void* shmaddr);
-
-int shmfree(key_t key);
-
+/**
+ * Function to allocate message queue memory.
+ * 
+ * @param key the key of the message queue.
+ * @return the ID of the message queue if the operation was a success, -1 otherwise.
+*/
 int msqalloc(key_t key);
 
-int msqfree (int msgqid);
+/**
+ * Function to free message queue memory.
+ * 
+ * @param msqid the ID of the message queue.
+ * @return 0 if the operation was a success, -1 otherwise.
+*/
+int msqfree (int msqid);
 
+/**
+ * Function to send a message through a message queue.
+ * 
+ * @param msqid the ID of the message queue.
+ * @return 0 if the operation was a success, -1 otherwise.
+*/
 int msqsend(int msqid, Message message);
 
+/**
+ * Function to receive a message through a message queue.
+ * 
+ * @param msqid the ID of the message queue.
+ * @return 0 if the operation was a success, -1 otherwise.
+*/
 int msqrecv(int msqid, Message *message);
 
 #endif

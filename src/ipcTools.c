@@ -71,42 +71,6 @@ int semfree(int semid) {
     return 0;
 }
 
-void* shmalloc(key_t key, int size, void* shmaddr) {
-    int shmid;
-
-    shmid = shmget(key, size | SHM_SIZE, IPC_CREAT | 0666);
-
-    if (shmid == -1) {
-        logError("Could not create shared memory");
-        return 0;
-    }
-
-    shmaddr = shmat(shmid, NULL, 0);
-    if (shmaddr == (void*) -1) {
-        logError("Could not attach shared memory segment");
-        return 0;
-    }
-    return shmaddr;
-}
-
-int shmfree(key_t key) {
-    int shmid;
-
-    shmid = shmget(key, 0, IPC_CREAT | 0666);
-
-    printf("%d\n", shmid);
-
-    if (shmid == -1) {
-        logError("Error getting shared memory segment ID");
-        return ERROR_CODE;
-    }
-    if(shmctl(shmid, IPC_RMID, NULL) == -1) {
-        logError("Error removing shared memory segment");
-        return ERROR_CODE;
-    }
-    return 0;
-}
-
 int msqalloc(key_t key) {
     int msqid;
 
@@ -114,7 +78,7 @@ int msqalloc(key_t key) {
     msqid = msgget(key, IPC_CREAT | 0666);
     if (msqid == -1) {
         logError("Error creating message queue");
-        return 0;
+        return ERROR_CODE;
     }
 
     return msqid;

@@ -1,5 +1,5 @@
 /**
- * File containing all the configurations of the GUI and other part of the program.
+ * File containing all the configuration of the program.
  * 
  * @authors Alice MABILLE, Benjamin PAUMARD
  * @version 1.0.0
@@ -8,17 +8,11 @@
 #ifndef __CONFIG__
 #define __CONFIG__
 
-/* width of the gui */
-#define WIDTH 1000
-
-/* height of the gui */
-#define HEIGHT 500
-
 /* title of the program */
 #define TITLE "Championship Sim"
 
 /* version of the program */
-#define VERSION "0.0.1"
+#define VERSION "1.0.0"
 
 #define DEFAULT_OUTPUT_PATH "./results/results.csv"
 

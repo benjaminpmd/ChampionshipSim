@@ -1,5 +1,5 @@
 /**
- * File containing all the functions to simulate a championship.
+ * File containing all the functions declarations to read and write in a file.
  * 
  * @authors Alice MABILLE, Benjamin PAUMARD
  * @version 1.0.0
@@ -27,7 +27,11 @@
 void readFile(char* path, char* buffer);
 
 /**
- * TODO: documentation
+ * Function to write content in a file.
+ * 
+ * @param path the path of the file.
+ * @param data the content to write in the file.
 */
 void writeFile(char* path, char* data);
+
 #endif

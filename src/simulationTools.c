@@ -210,12 +210,16 @@ int runSimulation(char *inputPath, char *outputPath, bool manualScoring) {
     key_t msqkey = ftok(".", 65);
 
     /* check if message key have been created */
-    if (msqkey == -1) {
+    if (msqkey == ERROR_CODE) {
         logError("could not create key");
         exit(EXIT_FAILURE);
     }
 
     int msqid = msgget(msqkey, 0666 | IPC_CREAT);
+    if (msqid == ERROR_CODE) {
+        logError("could not create message queue");
+        exit(EXIT_FAILURE);
+    }
 
     /* start counting time passed in the match */
     gettimeofday(&startTime, NULL);

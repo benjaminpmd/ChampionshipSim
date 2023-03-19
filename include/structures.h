@@ -2,7 +2,7 @@
  * File containing structures of the program.
  * 
  * @authors Alice MABILLE, Benjamin PAUMARD
- * @version 0.0.1
+ * @version 1.0.0
  * @since February, 01 2023
 */
 #ifndef __STRUCTURES__

@@ -1,8 +1,7 @@
 #include "../include/fileManagement.h"
 #include "../include/logger.h"
 
-void readFile(char *path, char *buffer)
-{
+void readFile(char *path, char *buffer) {
 
   /* init variables */
   FILE *fp;
@@ -27,8 +26,7 @@ void readFile(char *path, char *buffer)
   }
 }
 
-void writeFile(char *path, char *buffer)
-{
+void writeFile(char *path, char *buffer) {
   int desc;
 
   desc = open(path, O_RDWR | O_CREAT, 0777);

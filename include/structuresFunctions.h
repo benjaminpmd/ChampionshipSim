@@ -8,10 +8,11 @@
 #ifndef __STRUCTURES_FUNCTIONS__
 #define __STRUCTURES_FUNCTIONS__
 
-#include "structures.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+
+#include "structures.h"
 
 /**
  * Function to init a team.
