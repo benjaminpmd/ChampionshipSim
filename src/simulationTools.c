@@ -272,12 +272,18 @@ int runSimulation(char *inputPath, char *outputPath, bool manualScoring) {
                     
                     /* compare the name of the team with the one to remove */
                     if (strncmp(getName(getTeam(iterator)), message.message, strlen(getName(getTeam(iterator)))) == 0) {
+                        TeamItem tmp = iterator;
+                        /* get the next team*/
+                        iterator = getNext(iterator);
                         /* if this is the right team, remove it */
-                        list = removeTeamItem(list, iterator);
+                        list = removeTeamItem(list, tmp);
                         /* exit the loop */
+
                     }
-                    /* get the next team*/
-                    iterator = getNext(iterator);
+                    else {
+                        /* get the next team*/
+                        iterator = getNext(iterator);
+                    }
                 }
                 /* update the buffer with the new data */
                 updateOuputBuffer(resultBuffer, message.message);
@@ -293,6 +299,11 @@ int runSimulation(char *inputPath, char *outputPath, bool manualScoring) {
 
     /* free the message queue */
     msqfree(msqid);
+
+    /* free the semaphore is it have been used */
+    if (manSemid != -1) {
+        semfree(manSemid);
+    }
 
     /* write results into a file */
     writeFile(outputPath, resultBuffer);

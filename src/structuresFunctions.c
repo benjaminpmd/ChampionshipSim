@@ -116,9 +116,12 @@ int getLength(TeamItem list) {
 }
 
 Team getTeamAt(TeamItem list, int index) {
+    /* init values */
     int length = getLength(list);
     int i = 0;
     Team team = NULL;
+
+    /* iterate while the value is not the right */
     while ((i <= index) && !isEmpty(list)) {
         if (i == index) {
             team = list->team;
@@ -130,32 +133,41 @@ Team getTeamAt(TeamItem list, int index) {
 }
 
 TeamItem removeTeamItem(TeamItem list, TeamItem element) {
-    TeamItem iterator = list;
+    /* init values */
     TeamItem tmp = list;
 
+    /* if the list is already empty, return NULL */
     if(isEmpty(list)) {
         return NULL;
     }
 
-    if (iterator == element) {
+    /* if the first element is the one to remove */
+    if (list == element) {
         tmp = list;
-        list = list->next;
+        list = getNext(list);
+        free(getTeam(tmp));
+        free(tmp);
         return list;
     }
 
-    while (!isEmpty(iterator) && iterator != element) {
+    /* else check items to remove the right one */
+    TeamItem iterator = list;
+
+    /* iterate while the element is not the one researched */
+    while (!isEmpty(iterator) && (iterator != element)) {
         tmp = iterator;
         iterator = getNext(iterator);
     }
 
-    if (isEmpty(iterator)) {
-        setItemNext(tmp, initTeamItem());
-        return list;
+    /* if the element has been found, remove it*/
+    if (!isEmpty(iterator)) {
+        
+        setItemNext(tmp, getNext(iterator));
+
+        free(getTeam(iterator));
+        free(iterator);
     }
 
-    if (iterator == element) {
-        setItemNext(tmp, getNext(iterator));
-    }
     return list;
 }
 
