@@ -27,9 +27,14 @@ void readFile(char *path, char *buffer) {
 }
 
 void writeFile(char *path, char *buffer) {
+
+  /* remove file content*/
+  FILE *fp = fopen(path, "w");
+  fclose(fp);
+
   int desc;
 
-  desc = open(path, O_RDWR | O_CREAT, 0777);
+  desc = open(path, O_RDWR | O_CREAT, 0666);
   
   if (desc != -1) {
     write(desc, buffer, strlen(buffer));

@@ -53,6 +53,6 @@ void simulateMatch(Team firstTeam, Team secondTeam, int manSemid, int msqid, int
  * @param outputPath the path of the file to export the results.
  * @param manualScoring the boolean wether the score should be manual or not.
 */
-int runSimulation(char* inputPath, char* outputPath, bool manualScoring);
+void runSimulation(char* inputPath, char* outputPath, bool manualScoring);
 
 #endif

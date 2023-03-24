@@ -169,7 +169,7 @@ void simulateMatch(Team firstTeam, Team secondTeam, int manSemid, int msqid, int
     msqsend(msqid, message);
 }
 
-int runSimulation(char *inputPath, char *outputPath, bool manualScoring) {
+void runSimulation(char *inputPath, char *outputPath, bool manualScoring) {
     
     /* Creating list for extraction and sharing */
     TeamItem list;
@@ -310,7 +310,12 @@ int runSimulation(char *inputPath, char *outputPath, bool manualScoring) {
     }
 
     /* write results into a file */
-    writeFile(outputPath, resultBuffer);
+    if (outputPath == NULL) {
+        writeFile(DEFAULT_OUTPUT_PATH, resultBuffer);
+    }
+    else {
+        writeFile(outputPath, resultBuffer);
+    }
     
     /* calculate elapsed time */
     elapsedTime += (stopTime.tv_usec - startTime.tv_usec+1000000.0 * (stopTime.tv_sec - startTime.tv_sec))/1000;
