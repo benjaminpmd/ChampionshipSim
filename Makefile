@@ -14,9 +14,8 @@ SRC_DIR := src
 # binary build
 BUILD_DIR := build
 
-# output folder
-OUTPUT_DIR := output
-
+# bin folder
+BIN_DIR := bin
 # define the C source files
 SOURCES := $(wildcard $(SRC_DIR)/*.c)
 
@@ -24,10 +23,10 @@ SOURCES := $(wildcard $(SRC_DIR)/*.c)
 OBJECTS := $(patsubst $(SRC_DIR)/%.c, $(BUILD_DIR)/%.o, $(SOURCES))
 
 all: $(OBJECTS)
-	@$(CC) $(OBJECTS) -o $(OUTPUT_DIR)/main
+	@$(CC) $(OBJECTS) -o $(BIN_DIR)/main
 	@echo "✅ Build complete 🥳"
 
-$(BUILD_DIR)/%.o: $(SRC_DIR)/%.c clean create-build-dir create-output-dir
+$(BUILD_DIR)/%.o: $(SRC_DIR)/%.c clean create-build-dir create-bin-dir
 	@$(CC) -c $< -o $@
 
 $(BUILD_DIR)/main.o: $(SRC_DIR)/main.c
@@ -37,29 +36,29 @@ create-build-dir:
 	@mkdir build
 	@echo "✅ Created build directory"
 
-create-output-dir:
-	@mkdir output
-	@echo "✅ Created output directory"
+create-bin-dir:
+	@mkdir bin
+	@echo "✅ Created bin directory"
 
 clean:
-	@rm -rf $(BUILD_DIR) $(OUTPUT_DIR)
-	@echo "✅ Cleaned build and output directories 🗑️"
+	@rm -rf $(BUILD_DIR) $(BIN_DIR)
+	@echo "✅ Cleaned build and bin directories 🗑️"
 
 run:
 	@echo "🚀 executing main program"
-	@./output/main
+	@./bin/main
 
 run-manual:
 	@echo "🚀 executing main program"
-	@./output/main --manual-scoring
+	@./bin/main --manual-scoring
 
 run-input:
 	@echo "🚀 executing program with"
-	@./output/main -i ./assets/input.txt
+	@./bin/main -i ./assets/input.txt
 
-run-output:
+run-bin:
 	@echo "🚀 executing program with"
-	@./output/main --output ./results/end.csv
+	@./bin/main --output ./results/end.csv
 
 doxygen:
 	@doxygen
