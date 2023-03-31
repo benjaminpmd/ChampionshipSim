@@ -310,12 +310,7 @@ void runSimulation(char *inputPath, char *outputPath, bool manualScoring) {
     }
 
     /* write results into a file */
-    if (outputPath == NULL) {
-        writeFile(DEFAULT_OUTPUT_PATH, resultBuffer);
-    }
-    else {
-        writeFile(outputPath, resultBuffer);
-    }
+    writeFile(outputPath, resultBuffer);
     
     /* calculate elapsed time */
     elapsedTime += (stopTime.tv_usec - startTime.tv_usec+1000000.0 * (stopTime.tv_sec - startTime.tv_sec))/1000;

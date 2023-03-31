@@ -52,7 +52,7 @@ Mkfile.old
 dkms.conf
 
 .vscode
-/output
+/bin
 /results
 /build
 /logs

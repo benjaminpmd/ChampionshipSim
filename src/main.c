@@ -9,15 +9,23 @@
 
 int main(int argc, char **argv) {
 
-    // create the directory to store results
+    /* create the directory to store results */
     system("mkdir -p results");
     system("mkdir -p tmp");
 
-    // check if scoring is manual
+    char defaultOuputPathBuffer[42];
+    /* extract current time */
+    time_t timestamp = time(NULL);
+    struct tm *ptime = localtime(&timestamp);
+    
+    /* format current time */
+    strftime(defaultOuputPathBuffer, 42, "./results/results_%d-%m-%Y_%H-%M-%S.csv", ptime);
+
+    /* check if scoring is manual */
     bool manualScoring = false;
 
     char* inputPath = NULL;
-    char* outputPath = NULL;
+    char* outputPath = defaultOuputPathBuffer;
 
     char commands[6][30] = {
         "-m",

@@ -19,7 +19,6 @@ void saveData(char* data) {
     }
 }
 
-
 void logDebug(char *message) {
     // check if the level select is lower than the level of the function
     if (LEVEL <= DEBUG) {

@@ -14,8 +14,6 @@
 /* version of the program */
 #define VERSION "1.0.0"
 
-#define DEFAULT_OUTPUT_PATH "./results/results.csv"
-
 #define DEFAULT_VALUES "Évreux;Cognac;Mont De Marsan;Orange;Mérignac;Villacoublay;Istres;Solenzara;time=3"
 
 #endif
