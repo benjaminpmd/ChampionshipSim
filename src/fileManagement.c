@@ -31,6 +31,7 @@ void writeFile(char *path, char *buffer) {
   /* remove file content*/
   FILE *fp = fopen(path, "w");
   fclose(fp);
+  logDebug("Reset output file content");
 
   int desc;
 
@@ -38,8 +39,11 @@ void writeFile(char *path, char *buffer) {
   
   if (desc != -1) {
     write(desc, buffer, strlen(buffer));
+    logDebug("Write buffer content");
   }
   else {
     logError("Error on open");
   }
+  close(desc);
+  logDebug("Close the file");
 }

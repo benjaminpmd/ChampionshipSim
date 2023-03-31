@@ -16,6 +16,8 @@ int status = 0;
 pid_t wpid;
 
 TeamItem extractData(char *buffer, int *matchDuration) {
+    
+    logInfo("Extracting teams");
 
     /* init the team list */
     TeamItem list = initTeamItem();
@@ -28,16 +30,14 @@ TeamItem extractData(char *buffer, int *matchDuration) {
 
     /* loop through the string to extract all other tokens */
     while (extractedString != NULL) {
-        /* check if */
+        /* check if the string represent the duration of a match simulation */
         if (strncmp(extractedString, "time=", strlen("time=")) == 0) {
 
             memmove(extractedString, extractedString + 5, strlen(extractedString) - 5 + 1);
 
             (*matchDuration) = atoi(extractedString);
         }
-        else
-        {
-            logDebug(extractedString);
+        else {
             list = addTeam(list, extractedString);
             counter++;
         }
@@ -51,6 +51,8 @@ TeamItem extractData(char *buffer, int *matchDuration) {
         logCritical("Number of list is not correct.");
         exit(EXIT_FAILURE);
     }
+
+    logInfo("All the teams have been extracted");
 
     return list;
 }
@@ -86,7 +88,6 @@ void simulateMatch(Team firstTeam, Team secondTeam, int manSemid, int msqid, int
         scanf("%d", &(secondTeam->score));
         V(manSemid);
     }
-
     else {
         /* announcing beginning of the match */
         printf("\033[32mMATCH START: %s - %s\33[0m\n", getName(firstTeam), getName(secondTeam));
