@@ -49,35 +49,35 @@ typedef enum {DEBUG, INFO, WARNING, ERROR, CRITICAL} levels;
 void saveData(char* data);
 
 /**
- * This function save a debug message into the log file. The message will only be saved if the selected level is equal or lower than debug.
+ * This function saves a debug message into the log file. The message will only be saved if the selected level is equal or lower than debug.
  * 
  * @param message the message to save/print.
  */
 void logDebug(char *message);
 
 /**
- * This function save an information message into the log file. The message will only be saved if the selected level is equal or lower than information.
+ * This function saves an information message into the log file. The message will only be saved if the selected level is equal or lower than information.
  * 
  * @param message the message to save/print.
  */
 void logInfo(char *message);
 
 /**
- * This function save a warning message into the log file. The message will only be saved if the selected level is equal or lower than warning.
+ * This function saves a warning message into the log file. The message will only be saved if the selected level is equal or lower than warning.
  * 
  * @param message the message to save/print.
  */
 void logWarning(char *message);
 
 /**
- * This function save an error message into the log file. The message will only be saved if the selected level is equal or lower than error.
+ * This function saves an error message into the log file. The message will only be saved if the selected level is equal or lower than error.
  * 
  * @param message the message to save/print.
  */
 void logError(char *message);
 
 /**
- * This function save an critical message into the log file. The message will only be saved if the selected level is equal or lower than critical.
+ * This function saves an critical message into the log file. The message will only be saved if the selected level is equal or lower than critical.
  * 
  * @param message the message to save/print.
  */

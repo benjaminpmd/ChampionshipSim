@@ -19,11 +19,11 @@
 #include "structures.h"
 
 /**
- * launch the simulation from a file path.
+ * Extracts data from a buffer
  * 
  * @param buffer the buffer to get the list from.
  * @param matchDuration the duration of each match.
- * @return an array of list
+ * @return an array of lists
 */
 TeamItem extractData(char* buffer, int* matchDuration);
 
@@ -36,7 +36,7 @@ TeamItem extractData(char* buffer, int* matchDuration);
 void updateOuputBuffer(char* buffer, char* result);
 
 /**
- * Function that simulate a match.
+ * Function that simulates a match.
  * 
  * @param firstTeam the first team in the match.
  * @param secondTeam the second team in the match.
@@ -47,7 +47,7 @@ void updateOuputBuffer(char* buffer, char* result);
 void simulateMatch(Team firstTeam, Team secondTeam, int manSemid, int msqid, int matchDuration);
 
 /**
- * launch the simulation from a file path.
+ * Runs the simulation.
  * 
  * @param inputPath the path of the file to get the list from.
  * @param outputPath the path of the file to export the results.

@@ -1,5 +1,5 @@
 /**
- * File containing all the functions and structure declarations to manage inter process communication.
+ * File containing all the functions and structure declarations to manage inter-process communication.
  * 
  * @authors Alice MABILLE, Benjamin PAUMARD
  * @version 1.0.0
@@ -54,9 +54,6 @@ typedef struct message {
  */
 int semalloc(key_t key, int valInit);
 
-
-/*implémentent les deux opérations principales vues en cours sur les sémaphores.*/
-
 /**
  * Decrements semaphore if strictly positive value.
  *
@@ -73,7 +70,7 @@ int V(int semid);
 
 /**
  * Frees the semaphore passed in parameter.
- * Returns -1 if it's already been freed, 0 else.
+ * Returns -1 if it's already been freed, or else 0.
  *
  * @param semid the semaphore id.
  * @return an integer which is -1 if it's already been freed, 0 otherwise.
@@ -81,7 +78,7 @@ int V(int semid);
 int semfree(int semid);
 
 /**
- * Function to allocate message queue memory.
+ * Function to allocate a message queue memory.
  * 
  * @param key the key of the message queue.
  * @return the ID of the message queue if the operation was a success, -1 otherwise.
@@ -89,7 +86,7 @@ int semfree(int semid);
 int msqalloc(key_t key);
 
 /**
- * Function to free message queue memory.
+ * Function to free a message queue memory.
  * 
  * @param msqid the ID of the message queue.
  * @return 0 if the operation was a success, -1 otherwise.

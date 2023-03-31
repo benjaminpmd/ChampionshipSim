@@ -1,5 +1,5 @@
 /**
- * File containing all the functions declarations to read and write in a file.
+ * File containing all the function declarations to read and write in a file.
  * 
  * @authors Alice MABILLE, Benjamin PAUMARD
  * @version 1.0.0
@@ -19,7 +19,7 @@
 #define BUFFER_SIZE 4096
 
 /**
- * Function that read a file and returns the buffer.
+ * Function that reads a file and returns the buffer.
  * 
  * @param path path of the file to read.
  * @return the buffer of the file, the content.

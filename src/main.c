@@ -49,12 +49,12 @@ int main(int argc, char **argv) {
                     inputPath = argv[i+1];
                 }
                 else {
-                    puts("Incorrect input, seems like the path is not correct.");
+                    puts("Incorrect input, seems like the path is incorrect.");
                     exit(EXIT_SUCCESS);
                 }
             }
             else {
-                puts("Incorrect input, seems like you forgot input path.");
+                puts("Incorrect input, seems like you forgot the input path.");
                 exit(EXIT_SUCCESS);
             }
         }
@@ -71,12 +71,12 @@ int main(int argc, char **argv) {
                     outputPath = argv[i+1];
                 }
                 else {
-                    puts("Incorrect output, seems like the path is not correct.");
+                    puts("Incorrect output, seems like the path is incorrect.");
                     exit(EXIT_SUCCESS);
                 }
             }
             else {
-                puts("Incorrect output, seems like you forgot input path.");
+                puts("Incorrect output, seems like you forgot the input path.");
                 exit(EXIT_SUCCESS);
             }
         }

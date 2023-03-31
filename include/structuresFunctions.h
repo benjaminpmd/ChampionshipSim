@@ -68,14 +68,14 @@ void setScore(Team team, int score);
 void incrementScore(Team team);
 
 /**
- * Function that return an initialzed team list item.
+ * Function that returns an initialzed team list item.
  * 
  * @return an initialzed team list item.
 */
 TeamItem initTeamItem();
 
 /**
- * Function that return an allocated team item.
+ * Function that returns an allocated team item.
  * 
  * @return allocated memory for the list.
 */
@@ -114,7 +114,7 @@ void setItemTeam(TeamItem list, Team team);
 void setItemNext(TeamItem list, TeamItem nextItem);
 
 /**
- * Function that create a new Team with a string name.
+ * Function that creates a new Team with a string name.
  * 
  * @param list an item of the list.
  * @param name the name of the team to add.
@@ -123,7 +123,7 @@ void setItemNext(TeamItem list, TeamItem nextItem);
 TeamItem addTeam(TeamItem list, char* name);
 
 /**
- * Function that check if a team list element is empty or not.
+ * Function that checks if a team list element is empty or not.
  * 
  * @param list a @link TeamItem.
  * @return a boolean wether the element is empty or not.
@@ -131,7 +131,7 @@ TeamItem addTeam(TeamItem list, char* name);
 bool isEmpty(TeamItem list);
 
 /**
- * Function that check if a team list next element is empty or not.
+ * Function that checks if a team list next element is empty or not.
  * 
  * @param list a @link TeamItem.
  * @return a boolean wether the next element is empty or not.
@@ -155,7 +155,7 @@ int getLength(TeamItem list);
 Team getTeamAt(TeamItem list, int index);
 
 /**
- * Remove an element in a list.
+ * Removes an element in a list.
  * 
  * @param list the list to remove an element.
  * @param element the element to remove from the list.
@@ -164,7 +164,7 @@ Team getTeamAt(TeamItem list, int index);
 TeamItem removeTeamItem(TeamItem list, TeamItem element);
 
 /**
- * Print the content of a list.
+ * Prints the content of a list.
  * 
  * @param list the list to print the content from.
 */

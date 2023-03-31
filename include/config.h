@@ -1,5 +1,5 @@
 /**
- * File containing all the configuration of the program.
+ * File containing all the configurations of the program.
  * 
  * @authors Alice MABILLE, Benjamin PAUMARD
  * @version 1.0.0

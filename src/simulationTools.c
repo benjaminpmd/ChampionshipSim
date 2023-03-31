@@ -120,7 +120,7 @@ void simulateMatch(Team firstTeam, Team secondTeam, int manSemid, int msqid, int
                     printf("\033[34mACTION: match %s - %s: %s has new score: %d\33[0m\n", getName(firstTeam), getName(secondTeam), getName(secondTeam), getScore(secondTeam));
                     break;
                 default:
-                    logWarning("Trying to attribute point to unknow team");
+                    logWarning("Trying to assign point to unknown team");
             }
 
             /* get stop time */
@@ -143,7 +143,7 @@ void simulateMatch(Team firstTeam, Team secondTeam, int manSemid, int msqid, int
                 printf("\033[34mACTION: match %s - %s: %s has new score: %d\33[0m\n", getName(firstTeam), getName(secondTeam), getName(secondTeam), getScore(secondTeam));
                 break;
             default:
-                logWarning("Trying to attribute point to unknow team");
+                logWarning("Trying to assign point to unknown team");
         }
     }
     /* Section of the procedure that manage the return data */
@@ -296,7 +296,7 @@ void runSimulation(char *inputPath, char *outputPath, bool manualScoring) {
         }
     }
 
-    printf("\n\033[1mRESULT: %s has won the championship! Congrat!\33[0m\n\n", getName(getTeam(list)));
+    printf("\n\033[1mRESULT: %s has won the championship ! Congrats !\33[0m\n\n", getName(getTeam(list)));
 
     /* get the time of the stop */
     gettimeofday(&stopTime, NULL);
