@@ -86,7 +86,6 @@ void simulateMatch(Team firstTeam, Team secondTeam, int manSemid, int msqid, int
         scanf("%d", &(firstTeam->score));
         printf("Please enter the score for the team %s: ", secondTeam->name);
         scanf("%d", &(secondTeam->score));
-        V(manSemid);
     }
     else {
         /* announcing beginning of the match */
@@ -164,6 +163,10 @@ void simulateMatch(Team firstTeam, Team secondTeam, int manSemid, int msqid, int
     else {
         printf("\33[33mMATCH END: %s has won against %s ( %d - %d )\33[0m\n", getName(secondTeam), getName(firstTeam), getScore(secondTeam), getScore(firstTeam));
         snprintf(message.message, MESSAGE_BUFFER_SIZE, "%s;%d;%s;%d\n", getName(firstTeam), getScore(firstTeam), getName(secondTeam), getScore(secondTeam)); 
+    }
+
+    if (manSemid != -1) {
+        V(manSemid);
     }
     
     /* send the message */
